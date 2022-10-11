@@ -26,10 +26,9 @@ learning languages, this project would allow me to build
 something related to language learning.
 
 **User Story**:
-- As a user, I want to be able to add a flashcard to a deck
-- As a user, I want to be able to remove a flashcard from a deck
-- As a user, I want to be able to edit a flashcard in a deck
-- As a user, I want to be able to move a flashcard from one deck to another deck
-- As a user, I want to be able to add and remove decks
-- As a user, I want to be able to name my decks
-- As a user, I want to be able to see the number of flashcards in my deck
+- As a user, I want to be able to quiz myself using a set
+- As a user, I want to be able to add a flashcard to a set
+- As a user, I want to be able to remove a flashcard from a set
+- As a user, I want to be able to add and remove sets
+- As a user, I want to be able to title my sets
+- As a user, I want to be able to view the title and number of flashcards in a set 
