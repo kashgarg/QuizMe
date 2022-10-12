@@ -29,6 +29,7 @@ something related to language learning.
 - As a user, I want to be able to quiz myself using a set
 - As a user, I want to be able to add a flashcard to a set
 - As a user, I want to be able to remove a flashcard from a set
-- As a user, I want to be able to add and remove sets
+- As a user, I want to be able to add up to 5 sets
+- As a user, I want to be able to remove sets
 - As a user, I want to be able to title my sets
 - As a user, I want to be able to view the title and number of flashcards in a set 

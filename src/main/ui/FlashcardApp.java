@@ -1,10 +1,19 @@
 package ui;
 
+import model.Set;
+
 import java.util.Scanner;
+import java.util.List;
 
 // Flashcard application
 public class FlashcardApp {
     private Scanner input;
+    private Set setOne;
+    private Set setTwo;
+    private Set setThree;
+    private Set setFour;
+    private Set setFive;
+    private List<Set> flashcardSets; 
 
     // EFFECTS: runs the flashcard application
     // DISCLAIMER: constructor structure based on TellerApp
@@ -39,12 +48,17 @@ public class FlashcardApp {
     private void showMenu() {
         System.out.println("\nWelcome to QuizMe!");
         System.out.println("\nWhat would you like to do?");
-        System.out.println("\tq -> QuizMe!");
-        System.out.println("\tc -> Create a new set");
-        System.out.println("\tr -> Remove set");
-        System.out.println("\te -> Edit sets");
-        System.out.println("\tv -> View sets");
-        System.out.println("\ts -> Study break");
+        System.out.println("\tPress q to start QuizMe!");
+        System.out.println("\t----------------------------");
+        System.out.println("\tPress c to create a new set");
+        System.out.println("\t----------------------------");
+        System.out.println("\tPress r to remove a set");
+        System.out.println("\t----------------------------");
+        System.out.println("\tPress e to edit a set");
+        System.out.println("\t----------------------------");
+        System.out.println("\tPress v to view sets");
+        System.out.println("\t----------------------------");
+        System.out.println("\tPress s to take a study break");
     }
 
     // MODIFIES: this
@@ -75,7 +89,32 @@ public class FlashcardApp {
     // MODIFIES: this
     // EFFECTS: creates a new empty flashcard set with a title
     private void doCreateSet() {
-        System.out.println("CreateSet is not ready yet!"); // stub
+
+        //System.out.println("CreateSet is not ready yet!"); // stub
+
+        if (flashcardSets.size() == 5) {
+            System.out.println("Sorry! You've reached the maximum number of sets!");
+        } else {
+            String nameSelection = "";
+            while (nameSelection.equals("")) {
+                System.out.println("Enter the title of the new flashcard set: ");
+                nameSelection = input.nextLine();
+                if (flashcardSets.isEmpty()) {
+                    setOne = new Set(nameSelection);
+                } else if (flashcardSets.size() == 1) {
+                    setTwo = new Set(nameSelection);
+                } else if (flashcardSets.size() == 2) {
+                    setThree = new Set(nameSelection);
+                } else if (flashcardSets.size() == 3) {
+                    setFour = new Set(nameSelection);
+                } else {
+                    setFive = new Set(nameSelection);
+                }
+            }
+
+            System.out.println("The set '" + nameSelection + "' has been created!");
+        }
+
     }
 
     // MODIFIES: this
