@@ -1,5 +1,6 @@
 package ui;
 
+import model.Deck;
 import model.Set;
 
 import java.util.Scanner;
@@ -8,12 +9,7 @@ import java.util.List;
 // Flashcard application
 public class FlashcardApp {
     private Scanner input;
-    private Set setOne;
-    private Set setTwo;
-    private Set setThree;
-    private Set setFour;
-    private Set setFive;
-    private List<Set> flashcardSets; 
+    private Deck userDeck;
 
     // EFFECTS: runs the flashcard application
     // DISCLAIMER: constructor structure based on TellerApp
@@ -26,13 +22,14 @@ public class FlashcardApp {
     // DISCLAIMER: method structure based on TellerApp
     private void runFlashcard() {
         boolean keepRunning = true;
-        String command = null;
+        String command;
+        userDeck = new Deck();
 
         input = new Scanner(System.in);
 
         while (keepRunning) {
             showMenu();
-            command = input.next();
+            command = input.nextLine();
 
             if (command.equals("s")) {
                 keepRunning = false;
@@ -91,33 +88,13 @@ public class FlashcardApp {
     // DISCLAIMER: method structure based on TellerApp
     private void doCreateSet() {
 
-        //System.out.println("CreateSet is not ready yet!"); // stub
-
-        //System.out.println("Sorry! You've reached the maximum number of sets!");
-
-        String nameSelection = "";
-
-        if (flashcardSets.size() < 5) {
-            while (nameSelection.equals("")) {
-                System.out.println("Enter the title of the new flashcard set: ");
-                nameSelection = input.nextLine();
-                if (flashcardSets.isEmpty()) {
-                    setOne = new Set(nameSelection);
-                } else if (flashcardSets.size() == 1) {
-                    setTwo = new Set(nameSelection);
-                } else if (flashcardSets.size() == 2) {
-                    setThree = new Set(nameSelection);
-                } else if (flashcardSets.size() == 3) {
-                    setFour = new Set(nameSelection);
-                } else {
-                    setFive = new Set(nameSelection);
-                }
-            }
-
-            System.out.println("The set '" + nameSelection + "' has been created!");
-
-        } else {
-            System.out.println("Sorry! You've reached the maximum number of sets!");
+        boolean keepRunningdoCreateSet = true;
+        while (keepRunningdoCreateSet) {
+            System.out.print("Enter the title of the new flashcard set: ");
+            String setTitleSelection = input.nextLine();
+            userDeck.addSet(setTitleSelection);
+            System.out.println("\nThe set '" + setTitleSelection + "' has been created!");
+            keepRunningdoCreateSet = false;
         }
 
     }
