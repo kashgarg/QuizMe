@@ -3,8 +3,8 @@ package ui;
 import model.Deck;
 import model.Set;
 
+
 import java.util.Scanner;
-import java.util.List;
 
 // Flashcard application
 public class FlashcardApp {
@@ -119,7 +119,28 @@ public class FlashcardApp {
     // MODIFIES: this
     // EFFECTS: adds a flashcard to a flashcard set
     public void doAddFlashcard() {
-        System.out.println("\nAddFlashcard is not ready yet!"); // stub
+        // System.out.println("\nAddFlashcard is not ready yet!"); // stub
+
+        boolean keepRunningDoAddFlashcard = true;
+        while (keepRunningDoAddFlashcard) {
+            System.out.print("Enter the title of the set you wish to add a flashcard to: ");
+            String setTitleSelection = input.nextLine();
+            if (userDeck.containsSet(setTitleSelection)) {
+                System.out.print("Enter the question of your new flashcard: ");
+                String questionSelection = input.nextLine();
+                System.out.print("Enter the answer of your new flashcard: ");
+                String answerSelection = input.nextLine();
+                for (Set set : userDeck.getSetList()) {
+                    if (set.getTitle().equals(setTitleSelection)) {
+                        set.addFlashcard(questionSelection, answerSelection);
+                    }
+                }
+                System.out.println("\nYour new flashcard has been added to the set '" + setTitleSelection + "'!");
+            } else {
+                System.out.println("\nSorry! No set with title '" + setTitleSelection + "' was found!");
+            }
+            keepRunningDoAddFlashcard = false;
+        }
     }
 
     // MODIFIES: this

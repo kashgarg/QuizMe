@@ -102,6 +102,50 @@ public class DeckTest {
     }
 
     @Test
+    void testContainsSetSuccessOnce() {
+        testDeck.addSet("General Trivia");
+        assertTrue(testDeck.containsSet("General Trivia"));
+    }
+
+    @Test
+    void testContainsSetSuccessMultipleTimes() {
+        testDeck.addSet("General Trivia");
+        testDeck.addSet("Movie Trivia");
+        testDeck.addSet("KORN 102 Vocab");
+
+        assertTrue(testDeck.containsSet("General Trivia"));
+        assertTrue(testDeck.containsSet("Movie Trivia"));
+        assertTrue(testDeck.containsSet("KORN 102 Vocab"));
+    }
+
+    @Test
+    void testContainsSetFailOnce() {
+        assertFalse(testDeck.containsSet("General Trivia"));
+    }
+
+    @Test
+    void testContainsSetFailMultipleTimes() {
+        assertFalse(testDeck.containsSet("General Trivia"));
+        assertFalse(testDeck.containsSet("Movie Trivia"));
+        assertFalse(testDeck.containsSet("KORN 102 Vocab"));
+    }
+
+    @Test
+    void testContainsSetSuccessAndFailMultipleTimes() {
+        assertFalse(testDeck.containsSet("General Trivia"));
+        testDeck.addSet("General Trivia");
+        assertTrue(testDeck.containsSet("General Trivia"));
+
+        assertFalse(testDeck.containsSet("Movie Trivia"));
+        testDeck.addSet("Movie Trivia");
+        assertTrue(testDeck.containsSet("Movie Trivia"));
+
+        assertFalse(testDeck.containsSet("KORN 102 Vocab"));
+        testDeck.addSet("KORN 102 Vocab");
+        assertTrue(testDeck.containsSet("KORN 102 Vocab"));
+    }
+
+    @Test
     void testGetSetList() {
         assertTrue(testDeck.getSetList().isEmpty());
     }
