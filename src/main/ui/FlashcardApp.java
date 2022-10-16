@@ -86,11 +86,11 @@ public class FlashcardApp {
         while (keepRunningDoCreateSet) {
             System.out.print("Enter the title of the new flashcard set you wish to create: ");
 
-            String setTitleSelection = input.nextLine();
+            String addSetTitleSelection = input.nextLine();
 
-            userDeck.addSet(setTitleSelection);
+            userDeck.addSet(addSetTitleSelection);
 
-            System.out.println("\nThe set '" + setTitleSelection + "' has been created!");
+            System.out.println("\nThe set '" + addSetTitleSelection + "' has been created!");
 
             keepRunningDoCreateSet = false;
         }
@@ -99,7 +99,19 @@ public class FlashcardApp {
     // MODIFIES: this
     // EFFECTS: removes a flashcard set
     private void doRemoveSet() {
-        System.out.println("RemoveSet is not ready yet!"); // stub
+        //System.out.println("RemoveSet is not ready yet!"); // stub
+
+        boolean keepRunningDoRemoveSet = true;
+        while (keepRunningDoRemoveSet) {
+            System.out.print("Enter the title of the flashcard set you wish to remove: ");
+            String removeSetTitleSelection = input.nextLine();
+            if (userDeck.removeSet(removeSetTitleSelection)) {
+                System.out.println("\nThe set '" + removeSetTitleSelection + "' has been removed!");
+            } else {
+                System.out.println("\nSorry! No set with title '" + removeSetTitleSelection + "' was found!");
+            }
+            keepRunningDoRemoveSet = false;
+        }
     }
 
     // MODIFIES: this

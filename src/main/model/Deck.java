@@ -19,14 +19,27 @@ public class Deck {
 
     // REQUIRES: title must be a non-empty string.
     // MODIFIES: this
-    // EFFECTS:  creates a new flashcard set and adds it to this flashcard deck
+    // EFFECTS:  creates a new flashcard set with the given title
+    //           and adds it to this flashcard deck
     public void addSet(String title) {
         Set newSet = new Set(title);
         setList.add(newSet);
     }
 
-    public void removeSet(int index) {
-        setList.remove(index);
+    // MODIFIES: this
+    // EFFECTS:  Removes the flashcard set of the given title from
+    //           the flashcard deck and returns true. If no set of
+    //           the given title was found in the flashcard deck
+    //           then returns false.
+    public boolean removeSet(String title) {
+
+        for (Set set : setList) {
+            if (set.getTitle().equals(title)) {
+                setList.remove(set);
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<Set> getSetList() {
