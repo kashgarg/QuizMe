@@ -88,14 +88,16 @@ public class FlashcardApp {
 
     // MODIFIES: this
     // EFFECTS: creates a new empty flashcard set with a title
+    // DISCLAIMER: method structure based on TellerApp
     private void doCreateSet() {
 
         //System.out.println("CreateSet is not ready yet!"); // stub
 
-        if (flashcardSets.size() == 5) {
-            System.out.println("Sorry! You've reached the maximum number of sets!");
-        } else {
-            String nameSelection = "";
+        //System.out.println("Sorry! You've reached the maximum number of sets!");
+
+        String nameSelection = "";
+
+        if (flashcardSets.size() < 5) {
             while (nameSelection.equals("")) {
                 System.out.println("Enter the title of the new flashcard set: ");
                 nameSelection = input.nextLine();
@@ -113,6 +115,9 @@ public class FlashcardApp {
             }
 
             System.out.println("The set '" + nameSelection + "' has been created!");
+
+        } else {
+            System.out.println("Sorry! You've reached the maximum number of sets!");
         }
 
     }

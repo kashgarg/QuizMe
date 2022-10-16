@@ -118,5 +118,25 @@ public class SetTest {
         assertTrue(testSet.getFlashcardList().isEmpty());
     }
 
+    @Test
+    void testGetTitle() {
+        assertEquals("General Trivia", testSet.getTitle());
+    }
+
+    @Test
+    void testGetFlashcardList() {
+        // testing empty flashcard list
+        assertTrue(testSet.getFlashcardList().isEmpty());
+
+        // testing with one flashcard
+        testSet.addFlashcard("What is the tallest mountain in the world?", "Mount Everest");
+        assertEquals(1, testSet.getFlashcardList().size());
+
+        // testing with two flashcards
+        testSet.addFlashcard("What is the longest river in the world?", "Nile River");
+        assertEquals(2,testSet.getFlashcardList().size());
+
+    }
+
 
 }

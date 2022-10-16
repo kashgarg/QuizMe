@@ -45,9 +45,4 @@ public class Set {
         return flashcardList;
     }
 
-
-
-
-
-
 }
