@@ -43,18 +43,12 @@ public class FlashcardApp {
     // EFFECTS: shows the main menu to the user
     // DISCLAIMER: method structure based on TellerApp
     private void showMenu() {
-        System.out.println("\nWelcome to QuizMe!");
-        System.out.println("\nWhat would you like to do?");
+        System.out.println("\nWelcome to QuizMe! What would you like to do?");
         System.out.println("\tPress q to start QuizMe!");
-        System.out.println("\t----------------------------");
         System.out.println("\tPress c to create a new set");
-        System.out.println("\t----------------------------");
         System.out.println("\tPress r to remove a set");
-        System.out.println("\t----------------------------");
         System.out.println("\tPress e to edit a set");
-        System.out.println("\t----------------------------");
         System.out.println("\tPress v to view sets");
-        System.out.println("\t----------------------------");
         System.out.println("\tPress s to take a study break");
     }
 
@@ -83,20 +77,23 @@ public class FlashcardApp {
         System.out.println("QuizMe is not ready yet!"); // stub
     }
 
+    // REQUIRES: Duplicate set titles not allowed.
     // MODIFIES: this
     // EFFECTS: creates a new empty flashcard set with a title
-    // DISCLAIMER: method structure based on TellerApp
-    private void doCreateSet() {
+    public void doCreateSet() {
 
-        boolean keepRunningdoCreateSet = true;
-        while (keepRunningdoCreateSet) {
-            System.out.print("Enter the title of the new flashcard set: ");
+        boolean keepRunningDoCreateSet = true;
+        while (keepRunningDoCreateSet) {
+            System.out.print("Enter the title of the new flashcard set you wish to create: ");
+
             String setTitleSelection = input.nextLine();
-            userDeck.addSet(setTitleSelection);
-            System.out.println("\nThe set '" + setTitleSelection + "' has been created!");
-            keepRunningdoCreateSet = false;
-        }
 
+            userDeck.addSet(setTitleSelection);
+
+            System.out.println("\nThe set '" + setTitleSelection + "' has been created!");
+
+            keepRunningDoCreateSet = false;
+        }
     }
 
     // MODIFIES: this
@@ -114,8 +111,20 @@ public class FlashcardApp {
     // MODIFIES: this
     // EFFECTS: displays the title and number of flashcards of each
     //          created flashcard set
-    private void doViewSets() {
-        System.out.println("ViewSets is not ready yet!"); // stub
+    public void doViewSets() {
+        if (userDeck.getSetList().isEmpty()) {
+            System.out.println("\nYou don't have any sets yet!");
+        } else {
+            for (Set set : userDeck.getSetList()) {
+                System.out.print("\nTitle: "
+                        + set.getTitle()
+                        + " --"
+                        + " Number of flashcards: "
+                        + set.getFlashcardList().size()
+                        + "\n");
+            }
+        }
+
     }
 
 

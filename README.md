@@ -4,9 +4,9 @@
 
 #### **What will this application do?**
 This application will allow you to create flashcards and 
-organize them into decks. The application will let you 
+organize them into sets. The application will let you 
 enter information about the question and answer of each
-flashcard, as well as the name of the deck. The application
+flashcard, as well as the name of the set. The application
 will allow you to quiz yourself by being presented the 
 question side of the flashcard and have a space for 
 you to input the answer.
@@ -26,10 +26,10 @@ learning languages, this project would allow me to build
 something related to language learning.
 
 **User Story**:
-- As a user, I want to be able to quiz myself using a set
+- As a user, I want to be able to quiz myself using a flashcard set
+- As a user, I want to be able to add sets
+- As a user, I want to be able to add a title to each set
+- As a user, I want to be able to remove sets
 - As a user, I want to be able to add a flashcard to a set
 - As a user, I want to be able to remove a flashcard from a set
-- As a user, I want to be able to add up to 5 sets
-- As a user, I want to be able to remove sets
-- As a user, I want to be able to title my sets
-- As a user, I want to be able to view the title and number of flashcards in a set 
+- As a user, I want to be able to view the title and number of flashcards in each set 

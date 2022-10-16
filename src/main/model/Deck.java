@@ -17,7 +17,7 @@ public class Deck {
         setList = new ArrayList<>();
     }
 
-    // REQUIRES: title must be a non-empty string
+    // REQUIRES: title must be a non-empty string.
     // MODIFIES: this
     // EFFECTS:  creates a new flashcard set and adds it to this flashcard deck
     public void addSet(String title) {

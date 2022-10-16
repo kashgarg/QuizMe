@@ -34,6 +34,7 @@ public class Set {
     // MODIFIES: this
     // EFFECTS:  removes a Flashcard from this flashcard set
     public void removeFlashcard(int index) {
+
         flashcardList.remove(index);
     }
 
