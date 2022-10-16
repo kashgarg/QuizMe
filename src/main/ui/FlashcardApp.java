@@ -47,7 +47,8 @@ public class FlashcardApp {
         System.out.println("\tPress q to start QuizMe!");
         System.out.println("\tPress c to create a new set");
         System.out.println("\tPress r to remove a set");
-        System.out.println("\tPress e to edit a set");
+        System.out.println("\tPress a to add a flashcard to a set");
+        System.out.println("\tPress rf to remove a flashcard from a set");
         System.out.println("\tPress v to view sets");
         System.out.println("\tPress s to take a study break");
     }
@@ -62,8 +63,10 @@ public class FlashcardApp {
             doCreateSet();
         } else if (command.equals("r")) {
             doRemoveSet();
-        } else if (command.equals("e")) {
-            doEditSets();
+        } else if (command.equals("a")) {
+            doAddFlashcard();
+        } else if (command.equals("rf")) {
+            doRemoveFlashcard();
         } else if (command.equals("v")) {
             doViewSets();
         } else {
@@ -97,9 +100,8 @@ public class FlashcardApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: removes a flashcard set
+    // EFFECTS: removes a flashcard set from the flashcard deck
     private void doRemoveSet() {
-        //System.out.println("RemoveSet is not ready yet!"); // stub
 
         boolean keepRunningDoRemoveSet = true;
         while (keepRunningDoRemoveSet) {
@@ -115,9 +117,15 @@ public class FlashcardApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: edits a flashcard set by adding or removing a flashcard
-    private void doEditSets() {
-        System.out.println("EditSets is not ready yet!"); // stub
+    // EFFECTS: adds a flashcard to a flashcard set
+    public void doAddFlashcard() {
+        System.out.println("\nAddFlashcard is not ready yet!"); // stub
+    }
+
+    // MODIFIES: this
+    // EFFECTS: removes a flashcard from a flashcard set
+    public void doRemoveFlashcard() {
+        System.out.println("\nRemoveFlashcard is not ready yet!"); // stub
     }
 
     // MODIFIES: this
