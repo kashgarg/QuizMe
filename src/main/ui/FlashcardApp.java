@@ -3,7 +3,6 @@ package ui;
 import model.Deck;
 import model.Set;
 
-
 import java.util.Scanner;
 
 // Flashcard application
@@ -24,7 +23,6 @@ public class FlashcardApp {
         boolean keepRunning = true;
         String command;
         userDeck = new Deck();
-
         input = new Scanner(System.in);
 
         while (keepRunning) {
@@ -119,8 +117,6 @@ public class FlashcardApp {
     // MODIFIES: this
     // EFFECTS: adds a flashcard to a flashcard set
     public void doAddFlashcard() {
-        // System.out.println("\nAddFlashcard is not ready yet!"); // stub
-
         boolean keepRunningDoAddFlashcard = true;
         while (keepRunningDoAddFlashcard) {
             System.out.print("Enter the title of the set you wish to add a flashcard to: ");
@@ -167,6 +163,4 @@ public class FlashcardApp {
         }
 
     }
-
-
 }

@@ -33,6 +33,9 @@ public class Set {
     //           index must be less than the size of flashcardList.
     // MODIFIES: this
     // EFFECTS:  removes a Flashcard from this flashcard set
+    // NOTE:     the implementation and tests for this method will be updated
+    //           in the next phase of this project to remove flashcards based
+    //           on the String value of a flashcard's question.
     public void removeFlashcard(int index) {
 
         flashcardList.remove(index);

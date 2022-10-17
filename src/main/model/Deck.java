@@ -42,8 +42,8 @@ public class Deck {
         return false;
     }
 
-    // EFFECTS: Returns true if a flashcard set has the same title
-    //          as the given title, false otherwise
+    // EFFECTS: Returns true if a flashcard set in the deck has
+    //          the same title as the given title, false otherwise
     public boolean containsSet(String title) {
 
         for (Set set: setList) {

@@ -73,7 +73,6 @@ public class SetTest {
         // removing the remaining flashcard
         testSet.removeFlashcard(0);
         assertTrue(testSet.getFlashcardList().isEmpty());
-
     }
 
     @Test
@@ -92,7 +91,6 @@ public class SetTest {
         assertEquals("What is the fastest animal in the world?",
                 testSet.getFlashcardList().get(1).getQuestion());
         assertEquals("Cheetah", testSet.getFlashcardList().get(1).getAnswer());
-
     }
 
     @Test
@@ -135,7 +133,6 @@ public class SetTest {
         // testing with two flashcards
         testSet.addFlashcard("What is the longest river in the world?", "Nile River");
         assertEquals(2,testSet.getFlashcardList().size());
-
     }
 
 

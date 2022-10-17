@@ -98,7 +98,6 @@ public class DeckTest {
         // failing to remove the "Movie Trivia" set by inputting an empty string
         assertFalse(testDeck.removeSet(""));
         assertEquals(1, testDeck.getSetList().size());
-
     }
 
     @Test
