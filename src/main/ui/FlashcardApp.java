@@ -11,14 +11,16 @@ public class FlashcardApp {
     private Deck userDeck;
 
     // EFFECTS: runs the flashcard application
-    // DISCLAIMER: constructor structure based on TellerApp
+    // DISCLAIMER: constructor structure based on TellerApp:
+    // https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
     public FlashcardApp() {
         runFlashcard();
     }
 
     // MODIFIES: this
     // EFFECTS: processes user input
-    // DISCLAIMER: method structure based on TellerApp
+    // DISCLAIMER: method structure based on TellerApp:
+    // https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
     private void runFlashcard() {
         boolean keepRunning = true;
         String command;
@@ -39,7 +41,8 @@ public class FlashcardApp {
     }
 
     // EFFECTS: shows the main menu to the user
-    // DISCLAIMER: method structure based on TellerApp
+    // DISCLAIMER: method structure based on TellerApp:
+    // https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
     private void showMenu() {
         System.out.println("\nWelcome to QuizMe! What would you like to do?");
         System.out.println("\tPress q to start QuizMe!");
@@ -53,7 +56,8 @@ public class FlashcardApp {
 
     // MODIFIES: this
     // EFFECTS: runs the user command
-    // DISCLAIMER: method structure based on TellerApp
+    // DISCLAIMER: method structure based on TellerApp:
+    // https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
     private void runCommand(String command) {
         if (command.equals("q")) {
             doQuizMe();
