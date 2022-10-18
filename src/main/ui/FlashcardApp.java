@@ -122,6 +122,7 @@ public class FlashcardApp {
         }
     }
 
+    // REQUIRES: Duplicate questions not allowed.
     // MODIFIES: this
     // EFFECTS: adds a flashcard to a flashcard set
     public void doAddFlashcard() {

@@ -3,8 +3,7 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SetTest {
     private Set testSet;
@@ -45,24 +44,43 @@ public class SetTest {
     }
 
     @Test
-    void testRemoveFlashcardOnce() {
+    void testRemoveFlashcardFailOnce() {
         testSet.addFlashcard("What is the tallest mountain in the world?", "Mount Everest");
         assertEquals(1, testSet.getFlashcardList().size());
 
-        testSet.removeFlashcard(0);
-        assertTrue(testSet.getFlashcardList().isEmpty());
-
+        // failing to remove flashcard by inputting 'shortest' instead of 'tallest'
+        assertFalse(testSet.removeFlashcard("What is the shortest mountain in the world?"));
+        assertEquals(1, testSet.getFlashcardList().size());
     }
 
     @Test
-    void testRemoveFlashcardMultipleTimes() {
+    void testRemoveFlashcardFailMultipleTimes() {
+        // failing to remove a flashcard from an empty set
+        assertFalse(testSet.removeFlashcard(""));
+
+        testSet.addFlashcard("What is the tallest mountain in the world?", "Mount Everest");
+
+        // failing to remove the added flashcard by adding an extra space after 'What'
+        assertFalse(testSet.removeFlashcard("What  is the tallest mountain in the world?"));
+    }
+
+    @Test
+    void testRemoveFlashcardSuccessOnce() {
+        testSet.addFlashcard("What is the fastest animal in the world?", "Cheetah");
+
+        // removing the added flashcard
+        assertTrue(testSet.removeFlashcard("What is the fastest animal in the world?"));
+    }
+
+    @Test
+    void testRemoveFlashcardSuccessMultipleTimes() {
         // adding two flashcards
         testSet.addFlashcard("What is the tallest mountain in the world?", "Mount Everest");
         testSet.addFlashcard("What is the longest river in the world?", "Nile River");
         assertEquals(2,testSet.getFlashcardList().size());
 
         // removing the first flashcard
-        testSet.removeFlashcard(0);
+        assertTrue(testSet.removeFlashcard("What is the tallest mountain in the world?"));
 
         // testing that the second flashcard has moved to index 0
         assertEquals(1, testSet.getFlashcardList().size());
@@ -71,12 +89,12 @@ public class SetTest {
         assertEquals("Nile River", testSet.getFlashcardList().get(0).getAnswer());
 
         // removing the remaining flashcard
-        testSet.removeFlashcard(0);
+        assertTrue(testSet.removeFlashcard("What is the longest river in the world?"));
         assertTrue(testSet.getFlashcardList().isEmpty());
     }
 
     @Test
-    void testRemoveFlashcardMiddleIndexOfThreeFlashcards() {
+    void testRemoveFlashcardSuccessMiddleIndexOfThreeFlashcards() {
         // adding three flashcards
         testSet.addFlashcard("What is the tallest mountain in the world?", "Mount Everest");
         testSet.addFlashcard("What is the longest river in the world?", "Nile River");
@@ -84,7 +102,7 @@ public class SetTest {
         assertEquals(3, testSet.getFlashcardList().size());
 
         // removing middle index of set
-        testSet.removeFlashcard(1);
+        assertTrue(testSet.removeFlashcard("What is the longest river in the world?"));
         assertEquals(2, testSet.getFlashcardList().size());
 
         // testing the third index has moved to index 1
@@ -94,7 +112,7 @@ public class SetTest {
     }
 
     @Test
-    void testAddFlashcardAndRemoveFlashcardMultipleTimes() {
+    void testAddFlashcardAndRemoveFlashcardSuccessMultipleTimes() {
         // adding two flashcards
         testSet.addFlashcard("What is the tallest mountain in the world?", "Mount Everest");
         assertEquals(1,testSet.getFlashcardList().size());
@@ -102,9 +120,9 @@ public class SetTest {
         assertEquals(2,testSet.getFlashcardList().size());
 
         // removing two flashcards
-        testSet.removeFlashcard(1);
+        assertTrue(testSet.removeFlashcard("What is the longest river in the world?"));
         assertEquals(1, testSet.getFlashcardList().size());
-        testSet.removeFlashcard(0);
+        assertTrue(testSet.removeFlashcard("What is the tallest mountain in the world?"));
         assertTrue(testSet.getFlashcardList().isEmpty());
 
         // adding one flashcard
@@ -112,7 +130,7 @@ public class SetTest {
         assertEquals(1, testSet.getFlashcardList().size());
 
         // removing one flashcard
-        testSet.removeFlashcard(0);
+        assertTrue(testSet.removeFlashcard("What is the fastest animal in the world?"));
         assertTrue(testSet.getFlashcardList().isEmpty());
     }
 

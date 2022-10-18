@@ -28,17 +28,19 @@ public class Set {
         flashcardList.add(newFlashcard);
     }
 
-    // REQUIRES: flashcardList must be non-empty.
-    //           index must be greater than or equal to 0.
-    //           index must be less than the size of flashcardList.
     // MODIFIES: this
-    // EFFECTS:  removes a Flashcard from this flashcard set
-    // NOTE:     the implementation and tests for this method will be updated
-    //           in the next phase of this project to remove flashcards based
-    //           on the String value of a flashcard's question.
-    public void removeFlashcard(int index) {
+    // EFFECTS:  Removes the flashcard of the given question from
+    //           the set and returns true. If no flashcard of the
+    //           given question was found in the set then return false
+    public boolean removeFlashcard(String question) {
 
-        flashcardList.remove(index);
+        for (Flashcard flashcard : flashcardList) {
+            if (flashcard.getQuestion().equals(question)) {
+                flashcardList.remove(flashcard);
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getTitle() {
