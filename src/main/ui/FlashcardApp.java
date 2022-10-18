@@ -1,6 +1,7 @@
 package ui;
 
 import model.Deck;
+import model.Flashcard;
 import model.Set;
 
 import java.util.Scanner;
@@ -51,6 +52,7 @@ public class FlashcardApp {
         System.out.println("\tPress a to add a flashcard to a set");
         System.out.println("\tPress rf to remove a flashcard from a set");
         System.out.println("\tPress v to view sets");
+        System.out.println("\tPress vf to view flashcards");
         System.out.println("\tPress s to take a study break");
     }
 
@@ -71,6 +73,8 @@ public class FlashcardApp {
             doRemoveFlashcard();
         } else if (command.equals("v")) {
             doViewSets();
+        } else if (command.equals("vf")) {
+            doViewFlashcards();
         } else {
             System.out.println("There is no such selection! Try again!");
         }
@@ -166,5 +170,26 @@ public class FlashcardApp {
             }
         }
 
+    }
+
+    // MODIFIES: this
+    // EFFECTS: displays the questions and answer of each flashcard in each
+    //          created flashcard set
+    public void doViewFlashcards() {
+        if (userDeck.getSetList().isEmpty()) {
+            System.out.println("\nYou don't have any sets yet!");
+        } else {
+            for (Set set : userDeck.getSetList()) {
+                if (set.getFlashcardList().isEmpty()) {
+                    System.out.println("\nThe set '" + set.getTitle() + "' has no flashcards!");
+                } else {
+                    System.out.println("\nThe set '" + set.getTitle() + "' has the following flashcards:");
+                    for (Flashcard flashcard : set.getFlashcardList()) {
+                        System.out.print("Question: " + flashcard.getQuestion() + " --"
+                                + " Answer: " + flashcard.getAnswer() + "\n");
+                    }
+                }
+            }
+        }
     }
 }
