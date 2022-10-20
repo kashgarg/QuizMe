@@ -4,6 +4,7 @@ import model.Deck;
 import model.Flashcard;
 import model.Set;
 
+import java.util.Iterator;
 import java.util.Scanner;
 
 // Flashcard application
@@ -150,8 +151,43 @@ public class FlashcardApp {
 
     // MODIFIES: this
     // EFFECTS: removes a flashcard from a flashcard set
+    @SuppressWarnings("methodlength")
     public void doRemoveFlashcard() {
-        System.out.println("\nRemoveFlashcard is not ready yet!"); // stub
+        boolean keepRunningDoRemoveFlashcard = true;
+        while (keepRunningDoRemoveFlashcard) {
+            System.out.print("Enter the title of the set you wish to remove a flashcard from: ");
+            String setTitleSelection = input.nextLine();
+            if (!(userDeck.containsSet(setTitleSelection))) {
+                System.out.println("\nSorry! No set with title '" + setTitleSelection + "' was found!");
+            } else {
+                for (Set set : userDeck.getSetList()) {
+                    if (set.getTitle().equals(setTitleSelection)) {
+                        if (set.getFlashcardList().isEmpty()) {
+                            System.out.println("\nSorry! The set '" + setTitleSelection
+                                    + "' doesn't contain any flashcards to remove!");
+                        } else {
+                            System.out.print("Enter the question of the flashcard you wish to remove: ");
+                            String questionSelection = input.nextLine();
+                            if (!(set.containsFlashcard(questionSelection))) {
+                                System.out.println("\nSorry! The set '" + setTitleSelection
+                                        + "' doesn't contain a flashcard with that question!");
+                            } else {
+                                for (Iterator<Flashcard> iterator
+                                        = set.getFlashcardList().iterator(); iterator.hasNext(); ) {
+                                    Flashcard flashcard = iterator.next();
+                                    if (flashcard.getQuestion().equals(questionSelection)) {
+                                        iterator.remove();
+                                        System.out.println("\nThe selected flashcard has been removed from the set '"
+                                                + setTitleSelection + "'!");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            keepRunningDoRemoveFlashcard = false;
+        }
     }
 
     // MODIFIES: this

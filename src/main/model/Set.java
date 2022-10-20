@@ -32,11 +32,28 @@ public class Set {
     // EFFECTS:  Removes the flashcard of the given question from
     //           the set and returns true. If no flashcard of the
     //           given question was found in the set then return false
+    // NOTE:     This method was intended to be used for the doRemoveFlashcard
+    //           method in the FlashcardApp class, however, I have implemented
+    //           doRemoveFlashcard in such a way that this method was not used,
+    //           so this method is currently unused, I plan to delete this method
+    //           and its associated tests if this method is still unused by the
+    //           end of the project.
     public boolean removeFlashcard(String question) {
 
         for (Flashcard flashcard : flashcardList) {
             if (flashcard.getQuestion().equals(question)) {
                 flashcardList.remove(flashcard);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // EFFECTS:  Returns true if a flashcard in the set has the
+    //           same question as the given question, false otherwise
+    public boolean containsFlashcard(String question) {
+        for (Flashcard flashcard : flashcardList) {
+            if (flashcard.getQuestion().equals(question)) {
                 return true;
             }
         }

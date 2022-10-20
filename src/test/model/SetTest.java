@@ -135,6 +135,31 @@ public class SetTest {
     }
 
     @Test
+    void testContainsFlashcardFailOnce() {
+        assertFalse(testSet.containsFlashcard("What is the longest river in the world?"));
+    }
+
+    @Test
+    void testContainsFlashcardSuccessOnce() {
+        testSet.addFlashcard("What is the tallest mountain in the world?", "Mount Everest");
+        assertTrue(testSet.containsFlashcard("What is the tallest mountain in the world?"));
+    }
+
+    @Test
+    void testContainsFlashcardFailAndSuccessMultipleTimes() {
+        assertFalse(testSet.containsFlashcard("What is the longest river in the world?"));
+
+        testSet.addFlashcard("What is the tallest mountain in the world?", "Mount Everest");
+        assertTrue(testSet.containsFlashcard("What is the tallest mountain in the world?"));
+
+        assertFalse(testSet.containsFlashcard("What is the fastest animal in the world?"));
+
+        testSet.addFlashcard("What is the fastest animal in the world?", "Cheetah");
+        assertTrue(testSet.containsFlashcard("What is the fastest animal in the world?"));
+
+    }
+
+    @Test
     void testGetTitle() {
         assertEquals("General Trivia", testSet.getTitle());
     }
