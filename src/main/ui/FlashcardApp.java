@@ -83,8 +83,35 @@ public class FlashcardApp {
 
     // MODIFIES: this
     // EFFECTS: quizzes the user on a set of flashcards
-    private void doQuizMe() {
-        System.out.println("QuizMe is not ready yet!"); // stub
+    @SuppressWarnings("methodlength")
+    protected void doQuizMe() {
+        boolean keepRunningDoQuizMe = true;
+        while (keepRunningDoQuizMe) {
+            System.out.print("Enter the title of the flashcard set you wish to be quizzed on: ");
+            String setSelection = input.nextLine();
+            if (!(userDeck.containsSet(setSelection))) {
+                System.out.println("\nSorry! No set with title '" + setSelection + "' was found!");
+            } else {
+                int correctAnswers = 0;
+                for (Set set : userDeck.getSetList()) {
+                    if (set.getTitle().equals(setSelection)) {
+                        for (Flashcard flashcard : set.getFlashcardList()) {
+                            System.out.print(flashcard.getQuestion() + ": ");
+                            String userAnswer = input.nextLine();
+                            if (flashcard.getAnswer().equals(userAnswer)) {
+                                System.out.println("Correct!\n");
+                                correctAnswers++;
+                            } else {
+                                System.out.println("Incorrect...\n");
+                            }
+                        }
+                        System.out.println("You got " + correctAnswers
+                                + " out of " + set.getFlashcardList().size() + " questions correct!");
+                    }
+                }
+            }
+            keepRunningDoQuizMe = false;
+        }
     }
 
     // REQUIRES: Duplicate set titles not allowed.
