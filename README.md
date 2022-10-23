@@ -34,3 +34,5 @@ something related to language learning.
 - As a user, I want to be able to remove a flashcard from a set
 - As a user, I want to be able to view the title and number of flashcards in each set
 - As a user, I want to be able to view the question and answer of each flashcard in each set
+- As a user, I want to be able to save my created sets and flashcards to file
+- As a user, I want to be able to load my created sets and flashcards from file
