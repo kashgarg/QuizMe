@@ -3,19 +3,30 @@ package ui;
 import model.Deck;
 import model.Flashcard;
 import model.Set;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Scanner;
 
 // Flashcard application
 public class FlashcardApp {
+    private static final String JSON_STORE = "./data/deck.json";
     private Scanner input;
     private Deck userDeck;
+    private final JsonWriter jsonWriter;
+    private final JsonReader jsonReader;
 
     // EFFECTS: runs the flashcard application
-    // DISCLAIMER: constructor structure based on TellerApp:
-    // https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
+    // DISCLAIMER: method structure based on JsonSerializationDemo:
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
     public FlashcardApp() {
+        input = new Scanner(System.in);
+        userDeck = new Deck();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         runFlashcard();
     }
 
@@ -26,7 +37,6 @@ public class FlashcardApp {
     private void runFlashcard() {
         boolean keepRunning = true;
         String command;
-        userDeck = new Deck();
         input = new Scanner(System.in);
 
         while (keepRunning) {
@@ -54,6 +64,8 @@ public class FlashcardApp {
         System.out.println("\tPress rf to remove a flashcard from a set");
         System.out.println("\tPress v to view sets");
         System.out.println("\tPress vf to view flashcards");
+        System.out.println("\tPress sd to save deck to file");
+        System.out.println("\tPress l to load deck from file");
         System.out.println("\tPress s to take a study break");
     }
 
@@ -76,6 +88,10 @@ public class FlashcardApp {
             doViewSets();
         } else if (command.equals("vf")) {
             doViewFlashcards();
+        } else if (command.equals("sd")) {
+            doSaveDeck();
+        } else if (command.equals("l")) {
+            doLoadDeck();
         } else {
             System.out.println("There is no such selection! Try again!");
         }
@@ -254,6 +270,33 @@ public class FlashcardApp {
                     }
                 }
             }
+        }
+    }
+
+    // EFFECTS: saves the deck to file
+    // DISCLAIMER: method structure based on JsonSerializationDemo:
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+    private void doSaveDeck() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(userDeck);
+            jsonWriter.close();
+            System.out.println("Saved the deck to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads deck from file
+    // DISCLAIMER: method structure based on JsonSerializationDemo:
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+    private void doLoadDeck() {
+        try {
+            userDeck = jsonReader.read();
+            System.out.println("Loaded deck from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
         }
     }
 }

@@ -1,7 +1,10 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 // Represents a flashcard having a question and an answer
-public class Flashcard {
+public class Flashcard implements Writable {
 
     private final String question;
     private final String answer;
@@ -21,6 +24,16 @@ public class Flashcard {
 
     public String getAnswer() {
         return answer;
+    }
+
+    @Override
+    // DISCLAIMER: method structure based on JsonSerializationDemo:
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("question", question);
+        json.put("answer", answer);
+        return json;
     }
 
 }

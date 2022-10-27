@@ -1,10 +1,14 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // Represents a flashcard set having a title and list of Flashcards
-public class Set {
+public class Set implements Writable {
 
     private final String title;
     private final List<Flashcard> flashcardList;
@@ -22,10 +26,16 @@ public class Set {
 
     // REQUIRES: question and answer must be non-empty strings
     // MODIFIES: this
-    // EFFECTS:  creates a new Flashcard and adds it to this flashcard set
+    // EFFECTS:  creates a new flashcard and adds it to this set
     public void addFlashcard(String question, String answer) {
         Flashcard newFlashcard = new Flashcard(question, answer);
         flashcardList.add(newFlashcard);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates a new flashcard and adds it to this set
+    public void addFlashcard(Flashcard flashcardTOadd) {
+        flashcardList.add(flashcardTOadd);
     }
 
     // MODIFIES: this
@@ -66,6 +76,29 @@ public class Set {
 
     public List<Flashcard> getFlashcardList() {
         return flashcardList;
+    }
+
+    @Override
+    // DISCLAIMER: method structure based on JsonSerializationDemo:
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("title", title);
+        json.put("flashcardList", flashcardListToJson());
+        return json;
+    }
+
+    // EFFECTS: returns flashcards in this set as a JSON array
+    // DISCLAIMER: method structure based on JsonSerializationDemo:
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+    private JSONArray flashcardListToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Flashcard flashcard : flashcardList) {
+            jsonArray.put(flashcard.toJson());
+        }
+
+        return jsonArray;
     }
 
 }

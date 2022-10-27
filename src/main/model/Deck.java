@@ -1,11 +1,15 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 // Represents a flashcard deck having a list of Sets
-public class Deck {
+public class Deck implements Writable {
 
     private final List<Set> setList;
 
@@ -19,11 +23,17 @@ public class Deck {
 
     // REQUIRES: title must be a non-empty string.
     // MODIFIES: this
-    // EFFECTS:  creates a new flashcard set with the given title
-    //           and adds it to this flashcard deck
+    // EFFECTS:  creates a new set with the given title
+    //           and adds it to this deck
     public void addSet(String title) {
         Set newSet = new Set(title);
         setList.add(newSet);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates a new set and adds it to this deck
+    public void addSet(Set setToAdd) {
+        setList.add(setToAdd);
     }
 
     // MODIFIES: this
@@ -57,6 +67,30 @@ public class Deck {
     public List<Set> getSetList() {
         return setList;
     }
+
+    @Override
+    // DISCLAIMER: method structure based on JsonSerializationDemo:
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("setList", setListToJson());
+        return json;
+    }
+
+    // EFFECTS: returns sets in this deck as a JSON array
+    // DISCLAIMER: method structure based on JsonSerializationDemo:
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+    private JSONArray setListToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Set set : setList) {
+            jsonArray.put(set.toJson());
+        }
+
+        return jsonArray;
+    }
+
+
 
 
 }
