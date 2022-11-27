@@ -34,7 +34,10 @@
         "title": "Animals"
     },
     {
-        "flashcardList": [],
+        "flashcardList": [{
+            "question": "What programming language is used in this course?",
+            "answer": "Java"
+        }],
         "title": "CPSC 210"
     }
 ]}

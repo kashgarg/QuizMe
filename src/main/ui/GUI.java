@@ -280,14 +280,14 @@ public class GUI extends JFrame implements ListSelectionListener {
         // EFFECTS: displays the title and number of flashcards of each
         //          created flashcard set
         public void viewSetsAction() {
-            System.out.println("View Sets has yet to be implemented!"); // stub
+            new SetViewer();
         }
 
         // MODIFIES: GUI
         // EFFECTS: displays the questions and answer of each flashcard in each
         //          created flashcard set
         public void viewFlashcardsAction() {
-            System.out.println("View Flashcards has yet to be implemented!"); // stub
+            new SetFlashcardViewer();
         }
 
         // MODIFIES: deck.json
@@ -579,6 +579,101 @@ public class GUI extends JFrame implements ListSelectionListener {
                 }
             }
         }
+    }
+
+    // Represents the pop-up menu that displays the title and number of flashcards of each created flashcard set
+    // DISCLAIMER: class structure based on JListExample:
+    // https://www.codejava.net/java-se/swing/jlist-basic-tutorial-and-examples
+    class SetViewer extends JFrame {
+        private JList<String> setJList;
+
+        // MODIFIES: GUI
+        // EFFECTS: constructs a JList displaying the title and number of flashcards of each created flashcard set
+        public SetViewer() {
+            DefaultListModel<String> setListModel = new DefaultListModel<>();
+            for (Set set : userDeck.getSetList()) {
+                setListModel.addElement(set.getTitle() + " - Number of Flashcards: " + set.getFlashcardList().size());
+            }
+
+            setJList = new JList<>(setListModel);
+            add(new JScrollPane(setJList));
+            this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+            this.setTitle("Set Viewer");
+            this.setSize(400,400);
+            this.setLocationRelativeTo(null);
+            this.setVisible(true);
+        }
+    }
+
+    // Represents the pop-up menu for choosing a set to view its flashcards
+    // DISCLAIMER: class structure based on Test:
+    // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
+    class SetFlashcardViewer extends JFrame implements ActionListener {
+        private JTextField setToView;
+
+        // MODIFIES: GUI
+        // EFFECTS: constructs the pop-up menu for choosing a set to view its flashcards
+        public SetFlashcardViewer() {
+            super("Choose a Set to View Flashcards");
+            setDefaultCloseOperation(HIDE_ON_CLOSE);
+            setPreferredSize(new Dimension(400, 90));
+            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+            setLayout(new FlowLayout());
+            JButton btn = new JButton("View Flashcards Of This Set");
+            btn.setActionCommand("mySetFlashcardViewerButton");
+            btn.addActionListener(this);
+            setToView = new JTextField(5);
+            add(setToView);
+            add(btn);
+            pack();
+            setLocationRelativeTo(null);
+            setVisible(true);
+            setResizable(false);
+        }
+
+        // EFFECTS: Displays a list of flashcards of the given set
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getActionCommand().equals("mySetFlashcardViewerButton")) {
+                String name = setToView.getText();
+                for (Set set : userDeck.getSetList()) {
+                    if (set.getTitle().equals(name)) {
+                        new FlashcardViewer(set.getTitle());
+                    }
+                }
+            }
+        }
+    }
+
+    // Represents the pop-up menu that displays the question and answer of each flashcard in a given set
+    // DISCLAIMER: class structure based on JListExample:
+    // https://www.codejava.net/java-se/swing/jlist-basic-tutorial-and-examples
+    class FlashcardViewer extends JFrame {
+        private JList<String> flashcardJList;
+        private String setTitle;
+
+        // MODIFIES: GUI
+        // EFFECTS: constructs a JList displaying the question and answer of each flashcard in a given set
+        public FlashcardViewer(String setTitle) {
+            this.setTitle = setTitle;
+            DefaultListModel<String> flashcardListModel = new DefaultListModel<>();
+            for (Set set : userDeck.getSetList()) {
+                if (set.getTitle().equals(setTitle)) {
+                    for (Flashcard flashcard : set.getFlashcardList()) {
+                        flashcardListModel.addElement("Question: " + flashcard.getQuestion() + " -- Answer: "
+                                + flashcard.getAnswer());
+                    }
+                }
+            }
+            flashcardJList = new JList<>(flashcardListModel);
+            add(new JScrollPane(flashcardJList));
+            this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+            this.setTitle("Flashcard Viewer");
+            this.setSize(400,400);
+            this.setLocationRelativeTo(null);
+            this.setVisible(true);
+        }
+
     }
 }
 
