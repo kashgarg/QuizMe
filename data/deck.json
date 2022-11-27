@@ -17,7 +17,16 @@
         "title": "General Trivia"
     },
     {
-        "flashcardList": [],
+        "flashcardList": [
+            {
+                "question": "What color is a whale?",
+                "answer": "Blue"
+            },
+            {
+                "question": "What color is a crow?",
+                "answer": "Black"
+            }
+        ],
         "title": "Animals"
     }
 ]}

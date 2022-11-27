@@ -1,6 +1,7 @@
 package ui;
 
 import model.Deck;
+import model.Flashcard;
 import model.Set;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -26,10 +27,13 @@ public class GUI extends JFrame implements ListSelectionListener {
     Color aquaMarineColor = new Color(20, 180, 118);
     JPanel toolPanel = new JPanel();
     JPanel logoPanel = new JPanel();
-    JButton quizMeButton = new JButton("QuizMe");
+    JButton quizMeButton = new JButton("QuizMe!");
     JButton addSetsButton = new JButton("Add Sets");
     JButton removeSetsButton = new JButton("Remove Sets");
-    JButton editFlashcardsButton = new JButton("Edit Flashcards");
+    JButton addFlashcardsButton = new JButton("Add Flashcards");
+    JButton removeFlashcardsButton = new JButton("Remove Flashcards");
+    JButton viewSetsButton = new JButton("View Sets");
+    JButton viewFlashcardsButton = new JButton("View Flashcards");
     JButton saveButton = new JButton("Save");
     JButton loadButton = new JButton("Load");
     JLabel logo = new JLabel();
@@ -49,8 +53,8 @@ public class GUI extends JFrame implements ListSelectionListener {
     // EFFECTS: initializes JButtons used in the main menu
     @SuppressWarnings("methodlength")
     public void initializeButtons() {
-        quizMeButton.setBounds(175, 10, 150, 75);
-        quizMeButton.setFont(new Font("Impact", Font.BOLD, 10));
+        quizMeButton.setBounds(175, 95, 150, 75);
+        quizMeButton.setFont(new Font("Impact", Font.BOLD, 25));
         quizMeButton.setOpaque(true);
         quizMeButton.setBorderPainted(true);
         quizMeButton.setForeground(lemonColor);
@@ -59,8 +63,8 @@ public class GUI extends JFrame implements ListSelectionListener {
         quizMeButton.setActionCommand("QuizMe");
         quizMeButton.addActionListener(new ButtonListener());
 
-        addSetsButton.setBounds(15, 10, 150, 75);
-        addSetsButton.setFont(new Font("Impact", Font.BOLD, 10));
+        addSetsButton.setBounds(15, 15, 150, 75);
+        addSetsButton.setFont(new Font("Impact", Font.BOLD, 17));
         addSetsButton.setOpaque(true);
         addSetsButton.setBorderPainted(true);
         addSetsButton.setForeground(lemonColor);
@@ -69,8 +73,8 @@ public class GUI extends JFrame implements ListSelectionListener {
         addSetsButton.setActionCommand("Add Sets");
         addSetsButton.addActionListener(new ButtonListener());
 
-        removeSetsButton.setBounds(15, 90, 150, 75);
-        removeSetsButton.setFont(new Font("Impact", Font.BOLD, 10));
+        removeSetsButton.setBounds(15, 95, 150, 75);
+        removeSetsButton.setFont(new Font("Impact", Font.BOLD, 17));
         removeSetsButton.setOpaque(true);
         removeSetsButton.setBorderPainted(true);
         removeSetsButton.setForeground(lemonColor);
@@ -79,8 +83,8 @@ public class GUI extends JFrame implements ListSelectionListener {
         removeSetsButton.setActionCommand("Remove Sets");
         removeSetsButton.addActionListener(new ButtonListener());
 
-        saveButton.setBounds(175, 90, 150, 75);
-        saveButton.setFont(new Font("Impact", Font.BOLD, 10));
+        saveButton.setBounds(175, 15, 150, 75);
+        saveButton.setFont(new Font("Impact", Font.BOLD, 17));
         saveButton.setOpaque(true);
         saveButton.setBorderPainted(true);
         saveButton.setForeground(lemonColor);
@@ -89,8 +93,8 @@ public class GUI extends JFrame implements ListSelectionListener {
         saveButton.setActionCommand("Save");
         saveButton.addActionListener(new ButtonListener());
 
-        loadButton.setBounds(335, 90, 150, 75);
-        loadButton.setFont(new Font("Impact", Font.BOLD, 10));
+        loadButton.setBounds(175, 175, 150, 75);
+        loadButton.setFont(new Font("Impact", Font.BOLD, 17));
         loadButton.setOpaque(true);
         loadButton.setBorderPainted(true);
         loadButton.setForeground(lemonColor);
@@ -99,15 +103,45 @@ public class GUI extends JFrame implements ListSelectionListener {
         loadButton.setActionCommand("Load");
         loadButton.addActionListener(new ButtonListener());
 
-        editFlashcardsButton.setBounds(335, 10, 150, 75);
-        editFlashcardsButton.setFont(new Font("Impact", Font.BOLD, 10));
-        editFlashcardsButton.setOpaque(true);
-        editFlashcardsButton.setBorderPainted(true);
-        editFlashcardsButton.setForeground(lemonColor);
-        editFlashcardsButton.setBackground(aquaMarineColor);
-        editFlashcardsButton.setBorder(BorderFactory.createEtchedBorder());
-        editFlashcardsButton.setActionCommand("Edit Flashcards");
-        editFlashcardsButton.addActionListener(new ButtonListener());
+        addFlashcardsButton.setBounds(335, 15, 150, 75);
+        addFlashcardsButton.setFont(new Font("Impact", Font.BOLD, 17));
+        addFlashcardsButton.setOpaque(true);
+        addFlashcardsButton.setBorderPainted(true);
+        addFlashcardsButton.setForeground(lemonColor);
+        addFlashcardsButton.setBackground(aquaMarineColor);
+        addFlashcardsButton.setBorder(BorderFactory.createEtchedBorder());
+        addFlashcardsButton.setActionCommand("Add Flashcards");
+        addFlashcardsButton.addActionListener(new ButtonListener());
+
+        removeFlashcardsButton.setBounds(335, 95, 150, 75);
+        removeFlashcardsButton.setFont(new Font("Impact", Font.BOLD, 17));
+        removeFlashcardsButton.setOpaque(true);
+        removeFlashcardsButton.setBorderPainted(true);
+        removeFlashcardsButton.setForeground(lemonColor);
+        removeFlashcardsButton.setBackground(aquaMarineColor);
+        removeFlashcardsButton.setBorder(BorderFactory.createEtchedBorder());
+        removeFlashcardsButton.setActionCommand("Remove Flashcards");
+        removeFlashcardsButton.addActionListener(new ButtonListener());
+
+        viewSetsButton.setBounds(15, 175, 150, 75);
+        viewSetsButton.setFont(new Font("Impact", Font.BOLD, 17));
+        viewSetsButton.setOpaque(true);
+        viewSetsButton.setBorderPainted(true);
+        viewSetsButton.setForeground(lemonColor);
+        viewSetsButton.setBackground(aquaMarineColor);
+        viewSetsButton.setBorder(BorderFactory.createEtchedBorder());
+        viewSetsButton.setActionCommand("View Sets");
+        viewSetsButton.addActionListener(new ButtonListener());
+
+        viewFlashcardsButton.setBounds(335, 175, 150, 75);
+        viewFlashcardsButton.setFont(new Font("Impact", Font.BOLD, 17));
+        viewFlashcardsButton.setOpaque(true);
+        viewFlashcardsButton.setBorderPainted(true);
+        viewFlashcardsButton.setForeground(lemonColor);
+        viewFlashcardsButton.setBackground(aquaMarineColor);
+        viewFlashcardsButton.setBorder(BorderFactory.createEtchedBorder());
+        viewFlashcardsButton.setActionCommand("View Flashcards");
+        viewFlashcardsButton.addActionListener(new ButtonListener());
     }
 
     // MODIFIES: this
@@ -123,7 +157,7 @@ public class GUI extends JFrame implements ListSelectionListener {
     // EFFECTS: initializes JPanels used in the main menu
     public void initializePanels() {
         toolPanel.setBackground(lemonColor);
-        toolPanel.setBounds(0, 500, 500, 200);
+        toolPanel.setBounds(0, 500, 500, 300);
         logoPanel.setBounds(0, 0, 500, 500);
     }
 
@@ -135,15 +169,18 @@ public class GUI extends JFrame implements ListSelectionListener {
         frame.setLayout(null);
         frame.setVisible(true);
         frame.setResizable(false);
-        frame.setSize(500, 700);
+        frame.setSize(500, 800);
         toolPanel.setLayout(null);
         logoPanel.add(logo);
         toolPanel.add(quizMeButton);
         toolPanel.add(addSetsButton);
-        toolPanel.add(editFlashcardsButton);
+        toolPanel.add(addFlashcardsButton);
         toolPanel.add(removeSetsButton);
         toolPanel.add(saveButton);
         toolPanel.add(loadButton);
+        toolPanel.add(removeFlashcardsButton);
+        toolPanel.add(viewSetsButton);
+        toolPanel.add(viewFlashcardsButton);
         frame.add(logoPanel);
         frame.add(toolPanel);
     }
@@ -173,14 +210,20 @@ public class GUI extends JFrame implements ListSelectionListener {
                 quizMeAction();
             } else if (e.getActionCommand().equals("Add Sets")) {
                 addSetsAction();
-            } else if (e.getActionCommand().equals("Edit Flashcards")) {
-                editFlashcardsAction();
+            } else if (e.getActionCommand().equals("Add Flashcards")) {
+                addFlashcardsAction();
             } else if (e.getActionCommand().equals("Remove Sets")) {
                 removeSetsAction();
             } else if (e.getActionCommand().equals("Save")) {
                 saveAction();
             } else if (e.getActionCommand().equals("Load")) {
                 loadAction();
+            } else if (e.getActionCommand().equals("Remove Flashcards")) {
+                removeFlashcardsAction();
+            } else if (e.getActionCommand().equals("View Sets")) {
+                viewSetsAction();
+            } else if (e.getActionCommand().equals("View Flashcards")) {
+                viewFlashcardsAction();
             } else {
                 System.out.println("Sorry! There is no such selection!");
             }
@@ -190,8 +233,20 @@ public class GUI extends JFrame implements ListSelectionListener {
         // EFFECTS: prompts the user to choose a set to be quizzed on
         public void quizMeAction() {
             //System.out.println("QuizMe button has yet to be implemented!"); // stub
-            for (Set set : userDeck.getSetList()) {
-                System.out.println(set.getTitle());
+            if (userDeck.getSetList().isEmpty()) {
+                System.out.println("\nYou don't have any sets yet!");
+            } else {
+                for (Set set : userDeck.getSetList()) {
+                    if (set.getFlashcardList().isEmpty()) {
+                        System.out.println("\nThe set '" + set.getTitle() + "' has no flashcards!");
+                    } else {
+                        System.out.println("\nThe set '" + set.getTitle() + "' has the following flashcards:");
+                        for (Flashcard flashcard : set.getFlashcardList()) {
+                            System.out.print("Question: " + flashcard.getQuestion() + " --"
+                                    + " Answer: " + flashcard.getAnswer() + "\n");
+                        }
+                    }
+                }
             }
         }
 
@@ -201,9 +256,8 @@ public class GUI extends JFrame implements ListSelectionListener {
             new SetAdder();
         }
 
-
-        public void editFlashcardsAction() {
-            System.out.println("Edit Flashcards button has yet to be implemented!"); // stub
+        public void addFlashcardsAction() {
+            new SetChooser();
         }
 
         // REQUIRES: More than one set in the userDeck (there must always be at least one set)
@@ -211,6 +265,26 @@ public class GUI extends JFrame implements ListSelectionListener {
         // EFFECTS: removes a set from the userDeck
         public void removeSetsAction() {
             new SetRemover();
+        }
+
+        // MODIFIES: this, userDeck
+        // EFFECTS: removes a flashcard from a set in the userDeck
+        public void removeFlashcardsAction() {
+            System.out.println("Remove Flashcards has yet to be implemented!"); // stub
+        }
+
+        // MODIFIES: this
+        // EFFECTS: displays the title and number of flashcards of each
+        //          created flashcard set
+        public void viewSetsAction() {
+            System.out.println("View Sets has yet to be implemented!"); // stub
+        }
+
+        // MODIFIES: this
+        // EFFECTS: displays the questions and answer of each flashcard in each
+        //          created flashcard set
+        public void viewFlashcardsAction() {
+            System.out.println("View Flashcards has yet to be implemented!"); // stub
         }
 
         // EFFECTS: saves the userDeck to file
@@ -246,7 +320,7 @@ public class GUI extends JFrame implements ListSelectionListener {
             super("Add Sets");
             setDefaultCloseOperation(HIDE_ON_CLOSE);
             setPreferredSize(new Dimension(400, 90));
-            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13) );
+            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
             setLayout(new FlowLayout());
             JButton btn = new JButton("Add Set");
             btn.setActionCommand("myAddButton");
@@ -278,7 +352,7 @@ public class GUI extends JFrame implements ListSelectionListener {
             super("Remove Sets");
             setDefaultCloseOperation(HIDE_ON_CLOSE);
             setPreferredSize(new Dimension(400, 90));
-            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13) );
+            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
             setLayout(new FlowLayout());
             JButton btn = new JButton("Remove Set");
             btn.setActionCommand("myRemoveButton");
@@ -298,6 +372,92 @@ public class GUI extends JFrame implements ListSelectionListener {
                 if (userDeck.getSetList().size() > 1) {
                     String name = setTitleToRemove.getText();
                     userDeck.removeSetName(name);
+                }
+            }
+        }
+    }
+
+    // DISCLAIMER: class structure based on Test:
+    // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
+    class SetChooser extends JFrame implements ActionListener {
+        private JTextField setTitleToChoose;
+
+        public SetChooser() {
+            super("Choose a Set to Add a Flashcard to");
+            setDefaultCloseOperation(HIDE_ON_CLOSE);
+            setPreferredSize(new Dimension(400, 90));
+            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+            setLayout(new FlowLayout());
+            JButton btn = new JButton("Add a Flashcard to This Set");
+            btn.setActionCommand("mySetChooserButton");
+            btn.addActionListener(this);
+            setTitleToChoose = new JTextField(5);
+            add(setTitleToChoose);
+            add(btn);
+            pack();
+            setLocationRelativeTo(null);
+            setVisible(true);
+            setResizable(false);
+        }
+
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getActionCommand().equals("mySetChooserButton")) {
+                String name = setTitleToChoose.getText();
+                for (Set set : userDeck.getSetList()) {
+                    if (set.getTitle().equals(name)) {
+                        new FlashcardAdder(set.getTitle());
+                    }
+                }
+            }
+        }
+    }
+
+    // DISCLAIMER: class structure based on Test:
+    // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
+    class FlashcardAdder extends JFrame implements ActionListener {
+        private JTextField questionField;
+        private JTextField answerField;
+        private JLabel questionLabel;
+        private JLabel answerLabel;
+        private String setTitle;
+
+
+        public FlashcardAdder(String setTitle) {
+            super("Add Flashcards");
+            this.setTitle = setTitle;
+            setDefaultCloseOperation(HIDE_ON_CLOSE);
+            setPreferredSize(new Dimension(400, 120));
+            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+            setLayout(new FlowLayout());
+            JButton btn = new JButton("Add Flashcard");
+            btn.setActionCommand("myAddFlashcardButton");
+            btn.addActionListener(this);
+            questionField = new JTextField(5);
+            answerField = new JTextField(5);
+            questionLabel = new JLabel("Question:");
+            answerLabel = new JLabel("Answer:");
+            add(questionLabel);
+            add(questionField);
+            add(answerLabel);
+            add(answerField);
+            add(btn);
+            pack();
+            setLocationRelativeTo(null);
+            setVisible(true);
+            setResizable(false);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getActionCommand().equals("myAddFlashcardButton")) {
+                for (Set set : userDeck.getSetList()) {
+                    if (set.getTitle().equals(setTitle)) {
+                        String question = questionField.getText();
+                        String answer = answerField.getText();
+                        set.addFlashcard(question, answer);
+                    }
                 }
             }
         }

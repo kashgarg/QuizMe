@@ -52,6 +52,8 @@ public class Deck implements Writable {
         return false;
     }
 
+    // MODIFIES: this
+    // EFFECTS: Removes the set of the given title from the deck
     public void removeSetName(String title) {
 
         for (Set set : setList) {
