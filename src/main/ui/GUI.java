@@ -24,6 +24,7 @@ public class GUI extends JFrame implements ListSelectionListener {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
     private Deck userDeck;
+    private int numCorrectAnswers;
     Color lemonColor = new Color(202, 224, 86);
     Color aquaMarineColor = new Color(20, 180, 118);
     JPanel toolPanel = new JPanel();
@@ -233,22 +234,7 @@ public class GUI extends JFrame implements ListSelectionListener {
         // MODIFIES: this
         // EFFECTS: prompts the user to choose a set to be quizzed on
         public void quizMeAction() {
-            //System.out.println("QuizMe button has yet to be implemented!"); // stub
-            if (userDeck.getSetList().isEmpty()) {
-                System.out.println("\nYou don't have any sets yet!");
-            } else {
-                for (Set set : userDeck.getSetList()) {
-                    if (set.getFlashcardList().isEmpty()) {
-                        System.out.println("\nThe set '" + set.getTitle() + "' has no flashcards!");
-                    } else {
-                        System.out.println("\nThe set '" + set.getTitle() + "' has the following flashcards:");
-                        for (Flashcard flashcard : set.getFlashcardList()) {
-                            System.out.print("Question: " + flashcard.getQuestion() + " --"
-                                    + " Answer: " + flashcard.getAnswer() + "\n");
-                        }
-                    }
-                }
-            }
+            new SetQuizMe();
         }
 
         // MODIFIES: GUI, userDeck
@@ -673,7 +659,136 @@ public class GUI extends JFrame implements ListSelectionListener {
             this.setLocationRelativeTo(null);
             this.setVisible(true);
         }
+    }
 
+    // Represents the pop-up menu for choosing a set to be quizzed on
+    // DISCLAIMER: class structure based on Test:
+    // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
+    class SetQuizMe extends JFrame implements ActionListener {
+        private JTextField setToQuiz;
+
+        // MODIFIES: GUI
+        // EFFECTS: constructs a pop-up menu for choosing a set to be quizzed on
+        public SetQuizMe() {
+            super("Choose a Set to be Quizzed On");
+            setDefaultCloseOperation(HIDE_ON_CLOSE);
+            setPreferredSize(new Dimension(400, 90));
+            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+            setLayout(new FlowLayout());
+            JButton btn = new JButton("QuizMe on This Set!");
+            btn.setActionCommand("mySetQuizMeButton");
+            btn.addActionListener(this);
+            setToQuiz = new JTextField(5);
+            add(setToQuiz);
+            add(btn);
+            pack();
+            setLocationRelativeTo(null);
+            setVisible(true);
+            setResizable(false);
+        }
+
+        // EFFECTS: starts a quiz if the user inputs a set with at least one flashcard
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            numCorrectAnswers = 0;
+            if (e.getActionCommand().equals("mySetQuizMeButton")) {
+                String name = setToQuiz.getText();
+                for (Set set : userDeck.getSetList()) {
+                    if (set.getTitle().equals(name) && set.getFlashcardList().size() >= 1) {
+                        for (Flashcard flashcard : set.getFlashcardList()) {
+                            new QuizMe(flashcard.getQuestion(), flashcard.getAnswer(),
+                                    set.getFlashcardList().get(0).getQuestion(), set.getFlashcardList().size());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Represents the pop-up menu for each flashcard in a set during a quiz
+    // DISCLAIMER: class structure based on Test:
+    // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
+    class QuizMe extends JFrame implements ActionListener {
+        private JTextField userAnswer;
+        private JLabel questionLabel;
+        private String question;
+        private String answer;
+        private String firstFlashcardQuestion;
+        private int flashcardListSize;
+
+        // MODIFIES: GUI
+        // EFFECTS: constructs the pop-up menu for each flashcard in a set during a quiz
+        public QuizMe(String question, String answer, String firstFlashcardQuestion, int flashcardListSize) {
+            super("QuizMe");
+            this.question = question;
+            this.answer = answer;
+            this.firstFlashcardQuestion = firstFlashcardQuestion;
+            this.flashcardListSize = flashcardListSize;
+            setDefaultCloseOperation(HIDE_ON_CLOSE);
+            setPreferredSize(new Dimension(400, 90));
+            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+            setLayout(new FlowLayout());
+            JButton btn = new JButton("Submit Answer");
+            btn.setActionCommand("myQuizMeButton");
+            btn.addActionListener(this);
+            userAnswer = new JTextField(5);
+            questionLabel = new JLabel(question);
+            add(questionLabel);
+            add(userAnswer);
+            add(btn);
+            pack();
+            setLocationRelativeTo(null);
+            setVisible(true);
+            setResizable(false);
+        }
+
+        // MODIFIES: GUI, numCorrectAnswers
+        // EFFECTS: increases numCorrectAnswers by 1 if the user inputs the correct answer,
+        //          disposes the current pop-up menu regardless of answer to prepare for next question,
+        //          if current question is the last question, then displays the final results of the quiz
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getActionCommand().equals("myQuizMeButton")) {
+                String userAnswerString = userAnswer.getText();
+                if (userAnswerString.equals(answer)) {
+                    numCorrectAnswers++;
+                    if (question.equals(firstFlashcardQuestion)) {
+                        this.dispose();
+                        new Results(flashcardListSize);
+                    }
+                    this.dispose();
+                } else if (question.equals(firstFlashcardQuestion)) {
+                    this.dispose();
+                    new Results(flashcardListSize);
+                } else {
+                    this.dispose();
+                }
+            }
+        }
+    }
+
+    // Represents a pop-up menu displaying the final score of the quiz
+    // DISCLAIMER: class structure based on Test:
+    // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
+    class Results extends JFrame {
+        private JLabel results;
+
+        // MODIFIES: GUI
+        // EFFECTS: constructs a pop-up menu displaying the final score of the quiz
+        public Results(int flashcardListSize) {
+            super("Results");
+            setDefaultCloseOperation(HIDE_ON_CLOSE);
+            setPreferredSize(new Dimension(400, 90));
+            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+            setLayout(new FlowLayout());
+            results = new JLabel("You got " + numCorrectAnswers + " out of "
+                    + flashcardListSize + " questions correct!");
+            add(results);
+            pack();
+            setLocationRelativeTo(null);
+            setVisible(true);
+            setResizable(false);
+        }
     }
 }
 
