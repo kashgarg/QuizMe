@@ -1,17 +1,23 @@
-{"setList": [{
-    "flashcardList": [
-        {
-            "question": "What is the tallest mountain in the world?",
-            "answer": "Everest"
-        },
-        {
-            "question": "What is the longest river in the world?",
-            "answer": "Nile"
-        },
-        {
-            "question": "What is the fastest animal in the world?",
-            "answer": "Cheetah"
-        }
-    ],
-    "title": "General Trivia"
-}]}
+{"setList": [
+    {
+        "flashcardList": [
+            {
+                "question": "What is the tallest mountain in the world?",
+                "answer": "Everest"
+            },
+            {
+                "question": "What is the longest river in the world?",
+                "answer": "Nile"
+            },
+            {
+                "question": "What is the fastest animal in the world?",
+                "answer": "Cheetah"
+            }
+        ],
+        "title": "General Trivia"
+    },
+    {
+        "flashcardList": [],
+        "title": "Animals"
+    }
+]}

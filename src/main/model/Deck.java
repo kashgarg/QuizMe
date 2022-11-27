@@ -52,6 +52,15 @@ public class Deck implements Writable {
         return false;
     }
 
+    public void removeSetName(String title) {
+
+        for (Set set : setList) {
+            if (set.getTitle().equals(title)) {
+                setList.remove(set);
+            }
+        }
+    }
+
     // EFFECTS: Returns true if a flashcard set in the deck has
     //          the same title as the given title, false otherwise
     public boolean containsSet(String title) {
