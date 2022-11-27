@@ -4,8 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 // Represents a flashcard deck having a list of Sets
@@ -41,7 +41,7 @@ public class Deck implements Writable {
     //           the flashcard deck and returns true. If no set of
     //           the given title was found in the flashcard deck
     //           then returns false.
-    public boolean removeSet(String title) {
+    public boolean removeSetBoolean(String title) {
 
         for (Set set : setList) {
             if (set.getTitle().equals(title)) {
@@ -54,11 +54,11 @@ public class Deck implements Writable {
 
     // MODIFIES: this
     // EFFECTS: Removes the set of the given title from the deck
-    public void removeSetName(String title) {
-
-        for (Set set : setList) {
+    public void removeSet(String title) {
+        for (Iterator<Set> iterator = this.getSetList().iterator(); iterator.hasNext(); ) {
+            Set set = iterator.next();
             if (set.getTitle().equals(title)) {
-                setList.remove(set);
+                iterator.remove();
             }
         }
     }

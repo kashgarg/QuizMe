@@ -157,7 +157,7 @@ public class FlashcardApp {
         while (keepRunningDoRemoveSet) {
             System.out.print("Enter the title of the flashcard set you wish to remove: ");
             String removeSetTitleSelection = input.nextLine();
-            if (userDeck.removeSet(removeSetTitleSelection)) {
+            if (userDeck.removeSetBoolean(removeSetTitleSelection)) {
                 System.out.println("\nThe set '" + removeSetTitleSelection + "' has been removed!");
             } else {
                 System.out.println("\nSorry! No set with title '" + removeSetTitleSelection + "' was found!");

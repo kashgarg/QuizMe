@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Iterator;
 
 // Represents the graphical user interface for Flashcard Application
 public class GUI extends JFrame implements ListSelectionListener {
@@ -250,43 +251,46 @@ public class GUI extends JFrame implements ListSelectionListener {
             }
         }
 
-        // MODIFIES: this, userDeck
+        // MODIFIES: GUI, userDeck
         // EFFECTS: adds a set to the userDeck
         public void addSetsAction() {
             new SetAdder();
         }
 
+        // MODIFIES: GUI, userDeck
+        // EFFECTS: adds a flashcard to a set in the userDeck
         public void addFlashcardsAction() {
-            new SetChooser();
+            new SetFlashcardAdder();
         }
 
         // REQUIRES: More than one set in the userDeck (there must always be at least one set)
-        // MODIFIES: this, userDeck
+        // MODIFIES: GUI, userDeck
         // EFFECTS: removes a set from the userDeck
         public void removeSetsAction() {
             new SetRemover();
         }
 
-        // MODIFIES: this, userDeck
+        // MODIFIES: GUI, userDeck
         // EFFECTS: removes a flashcard from a set in the userDeck
         public void removeFlashcardsAction() {
-            System.out.println("Remove Flashcards has yet to be implemented!"); // stub
+            new SetFlashcardRemover();
         }
 
-        // MODIFIES: this
+        // MODIFIES: GUI
         // EFFECTS: displays the title and number of flashcards of each
         //          created flashcard set
         public void viewSetsAction() {
             System.out.println("View Sets has yet to be implemented!"); // stub
         }
 
-        // MODIFIES: this
+        // MODIFIES: GUI
         // EFFECTS: displays the questions and answer of each flashcard in each
         //          created flashcard set
         public void viewFlashcardsAction() {
             System.out.println("View Flashcards has yet to be implemented!"); // stub
         }
 
+        // MODIFIES: deck.json
         // EFFECTS: saves the userDeck to file
         public void saveAction() {
             try {
@@ -299,7 +303,6 @@ public class GUI extends JFrame implements ListSelectionListener {
             }
         }
 
-        // MODIFIES: this
         // EFFECTS: loads the userDeck from file
         public void loadAction() {
             try {
@@ -311,11 +314,14 @@ public class GUI extends JFrame implements ListSelectionListener {
         }
     }
 
+    // Represents the pop-up menu for adding sets
     // DISCLAIMER: class structure based on Test:
     // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
     class SetAdder extends JFrame implements ActionListener {
         private JTextField setTitleToAdd;
 
+        // MODIFIES: GUI
+        // EFFECTS: constructs a pop-up menu for adding sets
         public SetAdder() {
             super("Add Sets");
             setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -334,6 +340,8 @@ public class GUI extends JFrame implements ListSelectionListener {
             setResizable(false);
         }
 
+        // MODIFIES: userDeck
+        // EFFECTS: Adds a set of the given title to the userDeck after the "Add Set" button is pressed
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getActionCommand().equals("myAddButton")) {
@@ -343,11 +351,14 @@ public class GUI extends JFrame implements ListSelectionListener {
         }
     }
 
+    // Represents the pop-up menu for removing sets
     // DISCLAIMER: class structure based on Test:
     // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
     class SetRemover extends JFrame implements ActionListener {
         private JTextField setTitleToRemove;
 
+        // MODIFIES: GUI
+        // EFFECTS: constructs the pop-up for removing sets
         public SetRemover() {
             super("Remove Sets");
             setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -366,30 +377,36 @@ public class GUI extends JFrame implements ListSelectionListener {
             setResizable(false);
         }
 
+        // REQUIRES: More than one set in the userDeck
+        // MODIFIES: userDeck
+        // EFFECTS: Removes a set of the given title from the userDeck after the "Remove Set" button is pressed
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getActionCommand().equals("myRemoveButton")) {
                 if (userDeck.getSetList().size() > 1) {
                     String name = setTitleToRemove.getText();
-                    userDeck.removeSetName(name);
+                    userDeck.removeSet(name);
                 }
             }
         }
     }
 
+    // Represents the pop-up for choosing a set to add a flashcard to
     // DISCLAIMER: class structure based on Test:
     // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
-    class SetChooser extends JFrame implements ActionListener {
+    class SetFlashcardAdder extends JFrame implements ActionListener {
         private JTextField setTitleToChoose;
 
-        public SetChooser() {
+        // MODIFIES: GUI
+        // EFFECTS: constructs the pop-up menu for choosing a set to add a flashcard to
+        public SetFlashcardAdder() {
             super("Choose a Set to Add a Flashcard to");
             setDefaultCloseOperation(HIDE_ON_CLOSE);
             setPreferredSize(new Dimension(400, 90));
             ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
             setLayout(new FlowLayout());
             JButton btn = new JButton("Add a Flashcard to This Set");
-            btn.setActionCommand("mySetChooserButton");
+            btn.setActionCommand("mySetFlashcardAdderButton");
             btn.addActionListener(this);
             setTitleToChoose = new JTextField(5);
             add(setTitleToChoose);
@@ -401,9 +418,11 @@ public class GUI extends JFrame implements ListSelectionListener {
         }
 
 
+        // EFFECTS: opens the pop-up for adding a flashcard to the given set after the
+        //          "Add a Flashcard to This Set" button is pressed
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getActionCommand().equals("mySetChooserButton")) {
+            if (e.getActionCommand().equals("mySetFlashcardAdderButton")) {
                 String name = setTitleToChoose.getText();
                 for (Set set : userDeck.getSetList()) {
                     if (set.getTitle().equals(name)) {
@@ -414,6 +433,7 @@ public class GUI extends JFrame implements ListSelectionListener {
         }
     }
 
+    // Represents the pop-up menu for adding a flashcard
     // DISCLAIMER: class structure based on Test:
     // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
     class FlashcardAdder extends JFrame implements ActionListener {
@@ -424,6 +444,8 @@ public class GUI extends JFrame implements ListSelectionListener {
         private String setTitle;
 
 
+        // MODIFIES: GUI
+        // EFFECTS: constructs a pop-up menu for adding a flashcard
         public FlashcardAdder(String setTitle) {
             super("Add Flashcards");
             this.setTitle = setTitle;
@@ -449,6 +471,9 @@ public class GUI extends JFrame implements ListSelectionListener {
             setResizable(false);
         }
 
+        // MODIFIES: userDeck
+        // EFFECTS: Adds a flashcard with the given question and answer to the chosen set after the
+        //          "Add Flashcard" button is pressed
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getActionCommand().equals("myAddFlashcardButton")) {
@@ -457,6 +482,99 @@ public class GUI extends JFrame implements ListSelectionListener {
                         String question = questionField.getText();
                         String answer = answerField.getText();
                         set.addFlashcard(question, answer);
+                    }
+                }
+            }
+        }
+    }
+
+    // Represents the pop-up menu for choosing a set to remove a flashcard from
+    // DISCLAIMER: class structure based on Test:
+    // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
+    class SetFlashcardRemover extends JFrame implements ActionListener {
+        private JTextField setToRemoveFlashcard;
+
+        // MODIFIES: GUI
+        // EFFECTS: constructs the pop-up menu for choosing a set to remove a flashcard from
+        public SetFlashcardRemover() {
+            super("Choose a Set to Remove a Flashcard from");
+            setDefaultCloseOperation(HIDE_ON_CLOSE);
+            setPreferredSize(new Dimension(400, 90));
+            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+            setLayout(new FlowLayout());
+            JButton btn = new JButton("Remove a Flashcard From This Set");
+            btn.setActionCommand("mySetFlashcardRemoverButton");
+            btn.addActionListener(this);
+            setToRemoveFlashcard = new JTextField(5);
+            add(setToRemoveFlashcard);
+            add(btn);
+            pack();
+            setLocationRelativeTo(null);
+            setVisible(true);
+            setResizable(false);
+        }
+
+        // EFFECTS: opens the pop-up menu for removing a flashcard after the
+        //          "Remove a Flashcard From This Set" button is pressed
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getActionCommand().equals("mySetFlashcardRemoverButton")) {
+                String name = setToRemoveFlashcard.getText();
+                for (Set set : userDeck.getSetList()) {
+                    if (set.getTitle().equals(name)) {
+                        new FlashcardRemover(set.getTitle());
+                    }
+                }
+            }
+        }
+    }
+
+    // Represents the pop-up menu for removing a flashcard
+    // DISCLAIMER: class structure based on Test:
+    // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
+    class FlashcardRemover extends JFrame implements ActionListener {
+        private JTextField questionField;
+        private JLabel questionLabel;
+        private String setTitle;
+
+        // MODIFIES: GUI
+        // EFFECTS: constructs the pop-up menu for removing a flashcard
+        public FlashcardRemover(String setTitle) {
+            super("Remove Flashcards");
+            this.setTitle = setTitle;
+            setDefaultCloseOperation(HIDE_ON_CLOSE);
+            setPreferredSize(new Dimension(400, 120));
+            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+            setLayout(new FlowLayout());
+            JButton btn = new JButton("Remove Flashcard");
+            btn.setActionCommand("myRemoveFlashcardButton");
+            btn.addActionListener(this);
+            questionField = new JTextField(5);
+            questionLabel = new JLabel("Enter the Question of the Flashcard you Wish to Remove:");
+            add(questionLabel);
+            add(questionField);
+            add(btn);
+            pack();
+            setLocationRelativeTo(null);
+            setVisible(true);
+            setResizable(false);
+        }
+
+        // MODIFIES: userDeck
+        // EFFECTS: Removes a flashcard of the given question from the chosen set after the
+        //          "Remove Flashcard" button is pressed
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getActionCommand().equals("myRemoveFlashcardButton")) {
+                for (Set set : userDeck.getSetList()) {
+                    if (set.getTitle().equals(setTitle)) {
+                        String question = questionField.getText();
+                        for (Iterator<Flashcard> iterator = set.getFlashcardList().iterator(); iterator.hasNext(); ) {
+                            Flashcard flashcard = iterator.next();
+                            if (flashcard.getQuestion().equals(question)) {
+                                iterator.remove();
+                            }
+                        }
                     }
                 }
             }
