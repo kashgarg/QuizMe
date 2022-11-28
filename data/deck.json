@@ -39,5 +39,31 @@
             "answer": "Java"
         }],
         "title": "CPSC 210"
+    },
+    {
+        "flashcardList": [
+            {
+                "question": "3+4",
+                "answer": "7"
+            },
+            {
+                "question": "4+5",
+                "answer": "9"
+            }
+        ],
+        "title": "Additions"
+    },
+    {
+        "flashcardList": [
+            {
+                "question": "5-3",
+                "answer": "2"
+            },
+            {
+                "question": "7-2",
+                "answer": "5"
+            }
+        ],
+        "title": "Subtractions"
     }
 ]}

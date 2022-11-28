@@ -283,7 +283,7 @@ public class GUI extends JFrame implements ListSelectionListener {
                 jsonWriter.open();
                 jsonWriter.write(userDeck);
                 jsonWriter.close();
-                System.out.println("Saved the deck to " + JSON_STORE);
+                new SuccessfulSave();
             } catch (FileNotFoundException e) {
                 System.out.println("Unable to write to file: " + JSON_STORE);
             }
@@ -293,11 +293,58 @@ public class GUI extends JFrame implements ListSelectionListener {
         public void loadAction() {
             try {
                 userDeck = jsonReader.read();
-                System.out.println("Loaded deck from " + JSON_STORE);
+                new SuccessfulLoad();
             } catch (IOException e) {
                 System.out.println("Unable to read from file: " + JSON_STORE);
             }
         }
+    }
+
+    // Represents a pop-up menu displaying a message that the data has been saved
+    // DISCLAIMER: class structure based on Test:
+    // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
+    class SuccessfulSave extends JFrame {
+        private JLabel saveMessage;
+
+        // MODIFIES: GUI
+        // EFFECTS: Constructs a pop-up menu displaying a message that the data has been saved
+        public SuccessfulSave() {
+            super("Save Data");
+            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            setPreferredSize(new Dimension(400, 90));
+            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+            setLayout(new FlowLayout());
+            saveMessage = new JLabel("The data has been saved!");
+            add(saveMessage);
+            pack();
+            setLocationRelativeTo(null);
+            setVisible(true);
+            setResizable(false);
+        }
+    }
+
+    // Represents a pop-up menu displaying a message that the data has been loaded
+    // DISCLAIMER: class structure based on Test:
+    // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
+    class SuccessfulLoad extends JFrame {
+        private JLabel loadMessage;
+
+        // MODIFIES: GUI
+        // EFFECTS: Constructs a pop-up menu displaying a message that the data has been loaded
+        public SuccessfulLoad() {
+            super("Load Data");
+            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            setPreferredSize(new Dimension(400, 90));
+            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+            setLayout(new FlowLayout());
+            loadMessage = new JLabel("The data has been loaded!");
+            add(loadMessage);
+            pack();
+            setLocationRelativeTo(null);
+            setVisible(true);
+            setResizable(false);
+        }
+
     }
 
     // Represents the pop-up menu for adding sets
@@ -333,7 +380,31 @@ public class GUI extends JFrame implements ListSelectionListener {
             if (e.getActionCommand().equals("myAddButton")) {
                 String name = setTitleToAdd.getText();
                 userDeck.addSet(name);
+                new SuccessfulSetAdd(name);
             }
+        }
+    }
+
+    // Represents a pop-up menu displaying a message that the given set has been added
+    // DISCLAIMER: class structure based on Test:
+    // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
+    class SuccessfulSetAdd extends JFrame {
+        private JLabel setAddMessage;
+
+        // MODIFIES: GUI
+        // EFFECTS: Constructs a pop-up menu displaying a message that the given set has been added
+        public SuccessfulSetAdd(String name) {
+            super("Add Sets");
+            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            setPreferredSize(new Dimension(400, 90));
+            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+            setLayout(new FlowLayout());
+            setAddMessage = new JLabel("The set '" + name + "' has been added!");
+            add(setAddMessage);
+            pack();
+            setLocationRelativeTo(null);
+            setVisible(true);
+            setResizable(false);
         }
     }
 
@@ -371,9 +442,35 @@ public class GUI extends JFrame implements ListSelectionListener {
             if (e.getActionCommand().equals("myRemoveButton")) {
                 if (userDeck.getSetList().size() > 1) {
                     String name = setTitleToRemove.getText();
-                    userDeck.removeSet(name);
+                    if (userDeck.removeSetBoolean(name)) {
+                        userDeck.removeSet(name);
+                        new SuccessfulSetRemoval(name);
+                    }
                 }
             }
+        }
+    }
+
+    // Represents a pop-up menu displaying a message that the given set has been removed
+    // DISCLAIMER: class structure based on Test:
+    // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
+    class SuccessfulSetRemoval extends JFrame {
+        private JLabel setRemovalMessage;
+
+        // MODIFIES: GUI
+        // EFFECTS: Constructs a pop-up menu displaying a message that the given set has been added
+        public SuccessfulSetRemoval(String name) {
+            super("Remove Sets");
+            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            setPreferredSize(new Dimension(400, 90));
+            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+            setLayout(new FlowLayout());
+            setRemovalMessage = new JLabel("The set '" + name + "' has been removed!");
+            add(setRemovalMessage);
+            pack();
+            setLocationRelativeTo(null);
+            setVisible(true);
+            setResizable(false);
         }
     }
 
@@ -468,9 +565,33 @@ public class GUI extends JFrame implements ListSelectionListener {
                         String question = questionField.getText();
                         String answer = answerField.getText();
                         set.addFlashcard(question, answer);
+                        new SuccessfulFlashcardAdd(setTitle);
                     }
                 }
             }
+        }
+    }
+
+    // Represents a pop-up menu displaying a message that a flashcard has been added to the given set
+    // DISCLAIMER: class structure based on Test:
+    // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
+    class SuccessfulFlashcardAdd extends JFrame {
+        private JLabel flashcardAddMessage;
+
+        // MODIFIES: GUI
+        // EFFECTS: Constructs a pop-up menu displaying a message that a flashcard has been added to the given set
+        public SuccessfulFlashcardAdd(String setTitle) {
+            super("Add Flashcards");
+            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            setPreferredSize(new Dimension(400, 90));
+            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+            setLayout(new FlowLayout());
+            flashcardAddMessage = new JLabel("Your new flashcard has been added to the set '" + setTitle + "'!");
+            add(flashcardAddMessage);
+            pack();
+            setLocationRelativeTo(null);
+            setVisible(true);
+            setResizable(false);
         }
     }
 
@@ -559,11 +680,37 @@ public class GUI extends JFrame implements ListSelectionListener {
                             Flashcard flashcard = iterator.next();
                             if (flashcard.getQuestion().equals(question)) {
                                 iterator.remove();
+                                new SuccessfulFlashcardRemoval(setTitle);
+
                             }
                         }
                     }
                 }
             }
+        }
+    }
+
+    // Represents a pop-up menu displaying a message that a flashcard has been removed from the given set
+    // DISCLAIMER: class structure based on Test:
+    // https://stackoverflow.com/questions/6578205/swing-jlabel-text-change-on-the-running-application
+    class SuccessfulFlashcardRemoval extends JFrame {
+        private JLabel flashcardRemovalMessage;
+
+        // MODIFIES: GUI
+        // EFFECTS: Constructs a pop-up menu displaying a message that a flashcard has been removed from the given set
+        public SuccessfulFlashcardRemoval(String setTitle) {
+            super("Remove Flashcards");
+            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            setPreferredSize(new Dimension(400, 90));
+            ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
+            setLayout(new FlowLayout());
+            flashcardRemovalMessage = new JLabel("The flashcard has been removed from the set '"
+                    + setTitle + "'!");
+            add(flashcardRemovalMessage);
+            pack();
+            setLocationRelativeTo(null);
+            setVisible(true);
+            setResizable(false);
         }
     }
 
@@ -725,7 +872,7 @@ public class GUI extends JFrame implements ListSelectionListener {
             this.firstFlashcardQuestion = firstFlashcardQuestion;
             this.flashcardListSize = flashcardListSize;
             setDefaultCloseOperation(HIDE_ON_CLOSE);
-            setPreferredSize(new Dimension(400, 90));
+            setPreferredSize(new Dimension(400, 140));
             ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
             setLayout(new FlowLayout());
             JButton btn = new JButton("Submit Answer");
