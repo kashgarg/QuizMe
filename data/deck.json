@@ -49,6 +49,10 @@
             {
                 "question": "4+5",
                 "answer": "9"
+            },
+            {
+                "question": "3+1",
+                "answer": "4"
             }
         ],
         "title": "Additions"
@@ -65,5 +69,22 @@
             }
         ],
         "title": "Subtractions"
+    },
+    {
+        "flashcardList": [
+            {
+                "question": "4x5",
+                "answer": "20"
+            },
+            {
+                "question": "2x6",
+                "answer": "12"
+            },
+            {
+                "question": "3x7",
+                "answer": "21"
+            }
+        ],
+        "title": "Multiplication"
     }
 ]}

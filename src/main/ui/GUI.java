@@ -1,8 +1,10 @@
 package ui;
 
 import model.Deck;
+import model.EventLog;
 import model.Flashcard;
 import model.Set;
+import model.Event;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -14,6 +16,8 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
@@ -25,8 +29,8 @@ public class GUI extends JFrame implements ListSelectionListener {
     private JsonReader jsonReader;
     private Deck userDeck;
     private int numCorrectAnswers;
-    Color lemonColor = new Color(202, 224, 86);
-    Color aquaMarineColor = new Color(20, 180, 118);
+    Color lemonColor = new Color(244, 224, 86);
+    Color aquaMarineColor = new Color(20, 170, 118);
     JPanel toolPanel = new JPanel();
     JPanel logoPanel = new JPanel();
     JButton quizMeButton = new JButton("QuizMe!");
@@ -49,6 +53,7 @@ public class GUI extends JFrame implements ListSelectionListener {
         initializePanels();
         initializeFrame();
         initializeData();
+        EventLog.getInstance().clear();
     }
 
     // MODIFIES: this
@@ -56,7 +61,7 @@ public class GUI extends JFrame implements ListSelectionListener {
     @SuppressWarnings("methodlength")
     public void initializeButtons() {
         quizMeButton.setBounds(175, 95, 150, 75);
-        quizMeButton.setFont(new Font("Impact", Font.BOLD, 25));
+        quizMeButton.setFont(new Font("Helvetica", Font.BOLD, 25));
         quizMeButton.setOpaque(true);
         quizMeButton.setBorderPainted(true);
         quizMeButton.setForeground(lemonColor);
@@ -66,7 +71,7 @@ public class GUI extends JFrame implements ListSelectionListener {
         quizMeButton.addActionListener(new ButtonListener());
 
         addSetsButton.setBounds(15, 15, 150, 75);
-        addSetsButton.setFont(new Font("Impact", Font.BOLD, 17));
+        addSetsButton.setFont(new Font("Helvetica", Font.BOLD, 17));
         addSetsButton.setOpaque(true);
         addSetsButton.setBorderPainted(true);
         addSetsButton.setForeground(lemonColor);
@@ -76,7 +81,7 @@ public class GUI extends JFrame implements ListSelectionListener {
         addSetsButton.addActionListener(new ButtonListener());
 
         removeSetsButton.setBounds(15, 95, 150, 75);
-        removeSetsButton.setFont(new Font("Impact", Font.BOLD, 17));
+        removeSetsButton.setFont(new Font("Helvetica", Font.BOLD, 17));
         removeSetsButton.setOpaque(true);
         removeSetsButton.setBorderPainted(true);
         removeSetsButton.setForeground(lemonColor);
@@ -86,7 +91,7 @@ public class GUI extends JFrame implements ListSelectionListener {
         removeSetsButton.addActionListener(new ButtonListener());
 
         saveButton.setBounds(175, 15, 150, 75);
-        saveButton.setFont(new Font("Impact", Font.BOLD, 17));
+        saveButton.setFont(new Font("Helvetica", Font.BOLD, 17));
         saveButton.setOpaque(true);
         saveButton.setBorderPainted(true);
         saveButton.setForeground(lemonColor);
@@ -96,7 +101,7 @@ public class GUI extends JFrame implements ListSelectionListener {
         saveButton.addActionListener(new ButtonListener());
 
         loadButton.setBounds(175, 175, 150, 75);
-        loadButton.setFont(new Font("Impact", Font.BOLD, 17));
+        loadButton.setFont(new Font("Helvetica", Font.BOLD, 17));
         loadButton.setOpaque(true);
         loadButton.setBorderPainted(true);
         loadButton.setForeground(lemonColor);
@@ -106,7 +111,7 @@ public class GUI extends JFrame implements ListSelectionListener {
         loadButton.addActionListener(new ButtonListener());
 
         addFlashcardsButton.setBounds(335, 15, 150, 75);
-        addFlashcardsButton.setFont(new Font("Impact", Font.BOLD, 17));
+        addFlashcardsButton.setFont(new Font("Helvetica", Font.BOLD, 17));
         addFlashcardsButton.setOpaque(true);
         addFlashcardsButton.setBorderPainted(true);
         addFlashcardsButton.setForeground(lemonColor);
@@ -116,7 +121,7 @@ public class GUI extends JFrame implements ListSelectionListener {
         addFlashcardsButton.addActionListener(new ButtonListener());
 
         removeFlashcardsButton.setBounds(335, 95, 150, 75);
-        removeFlashcardsButton.setFont(new Font("Impact", Font.BOLD, 17));
+        removeFlashcardsButton.setFont(new Font("Helvetica", Font.BOLD, 14));
         removeFlashcardsButton.setOpaque(true);
         removeFlashcardsButton.setBorderPainted(true);
         removeFlashcardsButton.setForeground(lemonColor);
@@ -126,7 +131,7 @@ public class GUI extends JFrame implements ListSelectionListener {
         removeFlashcardsButton.addActionListener(new ButtonListener());
 
         viewSetsButton.setBounds(15, 175, 150, 75);
-        viewSetsButton.setFont(new Font("Impact", Font.BOLD, 17));
+        viewSetsButton.setFont(new Font("Helvetica", Font.BOLD, 17));
         viewSetsButton.setOpaque(true);
         viewSetsButton.setBorderPainted(true);
         viewSetsButton.setForeground(lemonColor);
@@ -136,7 +141,7 @@ public class GUI extends JFrame implements ListSelectionListener {
         viewSetsButton.addActionListener(new ButtonListener());
 
         viewFlashcardsButton.setBounds(335, 175, 150, 75);
-        viewFlashcardsButton.setFont(new Font("Impact", Font.BOLD, 17));
+        viewFlashcardsButton.setFont(new Font("Helvetica", Font.BOLD, 17));
         viewFlashcardsButton.setOpaque(true);
         viewFlashcardsButton.setBorderPainted(true);
         viewFlashcardsButton.setForeground(lemonColor);
@@ -165,9 +170,19 @@ public class GUI extends JFrame implements ListSelectionListener {
 
     // MODIFIES: this
     // EFFECTS: initializes JFrame used in the main menu
+    @SuppressWarnings("methodlength")
     public void initializeFrame() {
         frame.setTitle("QuizMe");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                for (Event event : EventLog.getInstance()) {
+                    System.out.println(event.toString() + "\n");
+                }
+                System.exit(0);
+            }
+        });
         frame.setLayout(null);
         frame.setVisible(true);
         frame.setResizable(false);
@@ -443,7 +458,7 @@ public class GUI extends JFrame implements ListSelectionListener {
                 if (userDeck.getSetList().size() > 1) {
                     String name = setTitleToRemove.getText();
                     if (userDeck.removeSetBoolean(name)) {
-                        userDeck.removeSet(name);
+                        //userDeck.removeSet(name);
                         new SuccessfulSetRemoval(name);
                     }
                 }
@@ -676,12 +691,14 @@ public class GUI extends JFrame implements ListSelectionListener {
                 for (Set set : userDeck.getSetList()) {
                     if (set.getTitle().equals(setTitle)) {
                         String question = questionField.getText();
-                        for (Iterator<Flashcard> iterator = set.getFlashcardList().iterator(); iterator.hasNext(); ) {
-                            Flashcard flashcard = iterator.next();
-                            if (flashcard.getQuestion().equals(question)) {
-                                iterator.remove();
-                                new SuccessfulFlashcardRemoval(setTitle);
-
+                        if (set.containsFlashcard(question)) {
+                            for (Iterator<Flashcard> iterator =
+                                    set.getFlashcardList().iterator(); iterator.hasNext();) {
+                                Flashcard flashcard = iterator.next();
+                                if (flashcard.getQuestion().equals(question)) {
+                                    iterator.remove();
+                                    new SuccessfulFlashcardRemoval(setTitle);
+                                }
                             }
                         }
                     }

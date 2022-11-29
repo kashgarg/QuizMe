@@ -29,6 +29,7 @@ public class Set implements Writable {
     // EFFECTS:  creates a new flashcard and adds it to this set
     public void addFlashcard(String question, String answer) {
         Flashcard newFlashcard = new Flashcard(question, answer);
+        EventLog.getInstance().logEvent(new Event("Added Flashcard to: " + title));
         flashcardList.add(newFlashcard);
     }
 
@@ -57,6 +58,7 @@ public class Set implements Writable {
     public boolean containsFlashcard(String question) {
         for (Flashcard flashcard : flashcardList) {
             if (flashcard.getQuestion().equals(question)) {
+                EventLog.getInstance().logEvent(new Event("Removed Flashcard from: " + title));
                 return true;
             }
         }

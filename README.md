@@ -39,8 +39,59 @@ something related to language learning.
 
 # Instructions for Grader
 
-- You can generate the first required event related to adding Xs to a Y by...
-- You can generate the second required event related to adding Xs to a Y by...
-- You can locate my visual component by...
-- You can save the state of my application by...
-- You can reload the state of my application by..
+- You can generate the first required event related to adding Xs to a Y (Adding a set) by
+  1. Running Main
+  2. Clicking the "Add Sets" button
+  3. Typing a set name in the text field (ex. SetOne)
+  4. Clicking the "Add Set" button
+  5. To verify that the set has indeed been added:
+     1. Click the "View Sets" button
+     2. A JList will be displayed with one entry (ex. SetOne -- Number of Flashcards: 0)
+- You can generate the second required event related to adding Xs to a Y (Removing a set) by
+  1. Running Main
+  2. Adding two sets with the instructions above (ex. SetOne and SetTwo) 
+     1. Note: Two sets must be added prior to removing a set because once one set has been added, there must always be at least one set in the application
+  3. Clicking the "Remove Sets" button
+  4. Typing the name of one of the two previously added sets in the text field (ex. SetTwo)
+  5. Clicking the "Remove Set" button
+  6. To verify that the set has indeed been removed:
+     1. Click the "View Sets button"
+     2. A JList will be displayed with one entry (the set that you did not remove)
+- You can locate my visual component by
+  1. Running Main
+  2. The visual component (an image displaying the name of the application: QuizMe) will be displayed on the main menu of the application
+- You can save the state of my application by 
+  1. Running Main
+  2. Clicking the "Save" button
+- You can reload the state of my application by
+  1. Running Main
+  2. Clicking the "Load" button
+
+# Phase 4: Task 2
+
+Tue Nov 29 12:04:03 PST 2022
+Event log cleared.
+
+Tue Nov 29 12:04:13 PST 2022
+Added Set: Movie Trivia
+
+Tue Nov 29 12:04:26 PST 2022
+Added Flashcard to: Movie Trivia
+
+Tue Nov 29 12:04:36 PST 2022
+Added Set: Animal Trivia
+
+Tue Nov 29 12:04:49 PST 2022
+Removed Flashcard from: Movie Trivia
+
+Tue Nov 29 12:05:02 PST 2022
+Added Flashcard to: Animal Trivia
+
+Tue Nov 29 12:05:11 PST 2022
+Added Flashcard to: Animal Trivia
+
+Tue Nov 29 12:05:20 PST 2022
+Removed Flashcard from: Animal Trivia
+
+Tue Nov 29 12:05:29 PST 2022
+Removed Set: Movie Trivia

@@ -27,6 +27,7 @@ public class Deck implements Writable {
     //           and adds it to this deck
     public void addSet(String title) {
         Set newSet = new Set(title);
+        EventLog.getInstance().logEvent(new Event("Added Set: " + title));
         setList.add(newSet);
     }
 
@@ -45,6 +46,7 @@ public class Deck implements Writable {
 
         for (Set set : setList) {
             if (set.getTitle().equals(title)) {
+                EventLog.getInstance().logEvent(new Event("Removed Set: " + title));
                 setList.remove(set);
                 return true;
             }
