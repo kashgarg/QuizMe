@@ -95,3 +95,19 @@ Removed Flashcard from: Animal Trivia
 
 Tue Nov 29 12:05:29 PST 2022
 Removed Set: Movie Trivia
+
+# Phase 4: Task 3
+
+- To improve cohesion, I would separate each class created in the GUI class
+(ex. SetAdder, SetRemover, etc.) into its own class file in the ui folder.
+Since these classes make use of the userDeck field in the GUI class, I would 
+change this field from private to protected. I would also make this field static
+to allow other classes to import the userDeck field. 
+- To improve cohesion, I would make a separate class file in the ui folder (ex. Button) for the 
+initialization of the nine buttons in the GUI class. In this class, each button would have its own 
+initialization method. 
+- To reduce coupling, I would reduce the amount of dependencies by refactoring the classes
+that represent pop-up menus for successful actions (ex. SuccessfulSetAdd, SuccessfulSetRemoval, etc.)
+to be incorporated into the classes that handle the actions themselves (ex. SuccessfulSetAdd would be 
+incorporated into the SetAdder class, SuccessfulSetRemoval would be incorporated into the 
+SetRemover class, etc.)
