@@ -34,13 +34,6 @@
         "title": "Animals"
     },
     {
-        "flashcardList": [{
-            "question": "What programming language is used in this course?",
-            "answer": "Java"
-        }],
-        "title": "CPSC 210"
-    },
-    {
         "flashcardList": [
             {
                 "question": "3+4",
@@ -86,5 +79,18 @@
             }
         ],
         "title": "Multiplication"
+    },
+    {
+        "flashcardList": [
+            {
+                "question": "Yes",
+                "answer": "Oui"
+            },
+            {
+                "question": "Thank you",
+                "answer": "Merci"
+            }
+        ],
+        "title": "French"
     }
 ]}
