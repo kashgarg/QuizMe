@@ -57,12 +57,7 @@ public class Deck implements Writable {
     // MODIFIES: this
     // EFFECTS: Removes the set of the given title from the deck
     public void removeSet(String title) {
-        for (Iterator<Set> iterator = this.getSetList().iterator(); iterator.hasNext(); ) {
-            Set set = iterator.next();
-            if (set.getTitle().equals(title)) {
-                iterator.remove();
-            }
-        }
+        this.getSetList().removeIf(set -> set.getTitle().equals(title));
     }
 
     // EFFECTS: Returns true if a flashcard set in the deck has
